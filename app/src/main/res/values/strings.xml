@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">PixelCodex</string>
+    <string name="applogo">App Logo</string>
+    <string name="sign_in_to_your_account">Sign in to your account</string>
+    <string name="todo">TODO</string>
+    <string name="don_t_have_an_account_sign_up">Don\'t have an account? SIGN UP</string>
+    <string name="steam_login">Steam Login</string>
+    <string name="google_login">Google Login</string>
+    <string name="or_sign_in_with">or sign in with</string>
+    <string name="sign_in">SIGN IN</string>
+    <string name="password">Password</string>
+    <string name="email">Email</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+
+    <string name="create_your_account">Create Your Account</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="or_sign_up_with">Or Sign Up With</string>
+    <string name="already_have_an_account_login">Already have an account? Login</string>
 </resources>
