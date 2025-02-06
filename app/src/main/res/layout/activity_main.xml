@@ -28,11 +28,10 @@
         android:layout_gravity="center"
         android:layout_marginTop="20dp"
         android:fontFamily="sans-serif-medium"
-        android:text="Login into Pixel Code X "
+        android:text="@string/login_title"
         android:textColor="@color/white"
         android:textSize="20sp"
-        android:textStyle="bold"
-        tools:ignore="HardcodedText" />
+        android:textStyle="bold" />
 
     <!-- EditText for Email -->
     <EditText
@@ -43,12 +42,12 @@
         android:layout_marginTop="15dp"
         android:background="@drawable/rounded_edittext"
         android:drawableStart="@drawable/ic_user"
-        android:drawablePadding="12dp"
+        android:drawablePadding="10dp"
         android:ems="10"
-        android:hint="Username or email"
+        android:hint="@string/username_hint"
+        android:importantForAutofill="no"
         android:inputType="textEmailAddress"
-        android:textColorHint="@color/white"
-        tools:ignore="Autofill,HardcodedText,TextContrastCheck" />
+        android:textColorHint="@color/white" />
 
     <!-- EditText for Password -->
     <EditText
@@ -59,11 +58,13 @@
         android:layout_marginTop="18dp"
         android:background="@drawable/rounded_edittext"
         android:drawableStart="@drawable/ic_password"
+        android:drawablePadding="10dp"
         android:ems="20"
         android:hint="Password"
+        android:importantForAutofill="no"
         android:inputType="textPassword"
         android:textColorHint="@color/white"
-        tools:ignore="Autofill,HardcodedText,TextContrastCheck" />
+        tools:ignore="HardcodedText" />
 
     <!-- Remember Me Checkbox -->
     <CheckBox
@@ -100,10 +101,10 @@
         android:layout_gravity="center"
         android:layout_marginTop="15dp"
         android:backgroundTint="@color/white"
-        android:text="Login"
+        android:text="@string/login_button"
         android:textColor="@android:color/black"
         android:textStyle="bold"
-        tools:ignore="HardcodedText,VisualLintButtonSize" />
+        tools:ignore="VisualLintButtonSize" />
 
     <!-- Divider Section with "or Sign In with" Text -->
     <LinearLayout
@@ -137,10 +138,6 @@
             android:background="@android:color/white" />
     </LinearLayout>
 
-    <!-- Google Sign-In Button -->
-
-
-    <!-- Facebook Sign-In Button -->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -148,6 +145,7 @@
         android:layout_marginTop="20dp"
         android:orientation="horizontal">
 
+        <!-- Google Sign-In Button -->
         <ImageButton
             android:id="@+id/googleSignInButton"
             android:layout_width="50dp"
@@ -163,6 +161,7 @@
             android:layout_width="16dp"
             android:layout_height="0dp" />
 
+        <!-- Facebook Sign-In Button -->
         <ImageButton
             android:id="@+id/steamSignInButton"
             android:layout_width="50dp"
