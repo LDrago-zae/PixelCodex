@@ -20,4 +20,7 @@
     <string name="sign_up">Sign Up</string>
     <string name="or_sign_up_with">Or Sign Up With</string>
     <string name="already_have_an_account_login">Already have an account? Login</string>
+    <string name="new_on_codex">NEW ON CODEX</string>
+    <string name="featured_game">Featured Game</string>
+    <string name="cart">Cart</string>
 </resources>

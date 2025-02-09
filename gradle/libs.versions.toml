@@ -1,5 +1,7 @@
 [versions]
-agp = "8.8.0"
+agp = "8.7.3"
+gradle = "8.7.3"
+gradleVersion = "8.7.3"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
@@ -11,6 +13,8 @@ navigationFragment = "2.8.2"
 navigationUi = "2.8.2"
 
 [libraries]
+gradle = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
+gradle-v870 = { module = "com.android.tools.build:gradle", version.ref = "gradleVersion" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
