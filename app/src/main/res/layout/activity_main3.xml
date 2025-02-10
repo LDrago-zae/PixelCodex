@@ -1,23 +1,21 @@
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#1B2838"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
     <!-- Top Bar -->
     <LinearLayout
         android:id="@+id/topBar"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:padding="16dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/balanceText"
@@ -32,7 +30,7 @@
             android:id="@+id/logo"
             android:layout_width="286dp"
             android:layout_height="50dp"
-            android:layout_marginEnd="auto"
+            android:layout_weight="1"
             android:contentDescription="@string/applogo"
             android:src="@drawable/applogo" />
 
@@ -51,25 +49,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="FEATURED"
-        android:textColor="#FFFFFF"
+        android:textColor="#F5E6CA"
         android:textSize="16sp"
         android:layout_marginStart="16dp"
-        app:layout_constraintTop_toBottomOf="@id/topBar"
-        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="16dp" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/featuredViewPager"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_marginTop="8dp"
         android:clipChildren="false"
         android:clipToPadding="false"
         android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/featuredTitle" />
+        android:paddingEnd="16dp" />
 
     <!-- New on Steam -->
     <TextView
@@ -77,11 +70,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/new_on_codex"
-        android:textColor="#FFFFFF"
+        android:textColor="#F5E6CA"
         android:textSize="16sp"
         android:layout_marginStart="16dp"
-        app:layout_constraintTop_toBottomOf="@id/featuredViewPager"
-        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="16dp" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -90,9 +81,6 @@
         android:layout_height="wrap_content"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        app:layout_constraintTop_toBottomOf="@id/newOnSteamTitle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:orientation="vertical"
         tools:listitem="@layout/view_pager2"
         android:layout_marginTop="8dp" />
@@ -106,8 +94,6 @@
         android:textColor="#FFFFFF"
         android:textSize="16sp"
         android:layout_marginStart="16dp"
-        app:layout_constraintTop_toBottomOf="@id/newOnSteamRecyclerView"
-        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="16dp" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -116,11 +102,8 @@
         android:layout_height="wrap_content"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        app:layout_constraintTop_toBottomOf="@id/recommendedTitle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:orientation="horizontal"
         tools:listitem="@layout/view_pager2"
         android:layout_marginTop="8dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
