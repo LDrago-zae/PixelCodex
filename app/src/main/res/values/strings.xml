@@ -23,4 +23,10 @@
     <string name="new_on_codex">NEW ON CODEX</string>
     <string name="featured_game">Featured Game</string>
     <string name="cart">Cart</string>
+    <string name="todo2">TODO</string>
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="todo3">TODO</string>
+    <string name="elden_ring">Elden Ring</string>
+    <string name="game_title">Game Title</string>
 </resources>

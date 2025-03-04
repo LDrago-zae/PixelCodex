@@ -11,11 +11,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-class FeaturedAdapter extends RecyclerView.Adapter<FeaturedAdapter.ViewHolder> {
+public class FeaturedAdaptor extends RecyclerView.Adapter<FeaturedAdaptor.ViewHolder> {
 
     private final List<FeaturedGame> featuredGames;
 
-    public FeaturedAdapter(List<FeaturedGame> featuredGames) {
+    public FeaturedAdaptor(List<FeaturedGame> featuredGames) {
         this.featuredGames = featuredGames;
     }
 

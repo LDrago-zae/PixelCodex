@@ -1,4 +1,5 @@
 <LinearLayout
+    android:id="@+id/main"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -52,13 +53,14 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:autofillHints=""
+            android:autofillHints="emailAddress"
+            android:background="@android:color/transparent"
             android:hint="@string/email"
-            android:hintTextColor="#9CAAB4"
             android:inputType="textEmailAddress"
             android:paddingStart="8dp"
             android:textColor="#D1D9E6"
-            android:background="@android:color/transparent" />
+            android:textColorHint="#1B2838"
+            tools:ignore="RtlSymmetry,TouchTargetSizeCheck" />
     </LinearLayout>
 
     <!-- Password Field -->
@@ -82,12 +84,12 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@android:color/transparent"
             android:hint="@string/password"
-            android:hintTextColor="#9CAAB4"
             android:inputType="textPassword"
-            android:paddingStart="8dp"
             android:textColor="#D1D9E6"
-            android:background="@android:color/transparent" />
+            android:textColorHint="#1B2838"
+            tools:ignore="TouchTargetSizeCheck" />
     </LinearLayout>
 
     <!-- Confirm Password Field -->
@@ -103,6 +105,7 @@
             android:id="@+id/confirmPasswordIcon"
             android:layout_width="24dp"
             android:layout_height="24dp"
+            android:contentDescription="@string/password"
             android:layout_gravity="center_vertical"
             android:src="@drawable/password" />
 
@@ -111,12 +114,14 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:background="@android:color/transparent"
             android:hint="@string/confirm_password"
-            android:hintTextColor="#9CAAB4"
+            android:autofillHints="password"
             android:inputType="textPassword"
             android:paddingStart="8dp"
             android:textColor="#D1D9E6"
-            android:background="@android:color/transparent" />
+            android:textColorHint="#1B2838"
+            tools:ignore="RtlSymmetry,TouchTargetSizeCheck" />
     </LinearLayout>
 
     <!-- Sign Up Button -->
@@ -175,11 +180,12 @@
         android:id="@+id/loginText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="@string/already_have_an_account_login"
-        android:textColor="#F5E6CA"
-        android:textStyle="underline"
+        android:layout_marginBottom="8dp"
         android:clickable="true"
         android:focusable="true"
-        android:layout_marginBottom="8dp" />
+        android:gravity="center"
+        android:minHeight="48dp"
+        android:text="@string/already_have_an_account_login"
+        android:textColor="#F5E6CA"
+        android:textStyle="bold" />
 </LinearLayout>
