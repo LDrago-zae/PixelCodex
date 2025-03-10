@@ -29,4 +29,15 @@
     <string name="todo3">TODO</string>
     <string name="elden_ring">Elden Ring</string>
     <string name="game_title">Game Title</string>
+    <string name="add">Add</string>
+    <string name="profile">Profile</string>
+    <string name="search">Search</string>
+    <string name="home">Home</string>
+    <string name="news" />
+    <string name="hamburger">hamburger</string>
+    <string name="log_out">Log Out</string>
+    <string name="gift_a_game">Gift A Game</string>
+    <string name="favorites">Favorites</string>
+    <string name="recent_activity">Recent Activity</string>
+    <string name="shop_history">Shop History</string>
 </resources>

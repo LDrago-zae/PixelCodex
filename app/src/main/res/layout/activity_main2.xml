@@ -176,8 +176,8 @@
         android:layout_marginBottom="30dp" />
 
     <!-- Login Text -->
-    <TextView
-        android:id="@+id/loginText"
+    <Button
+        android:id="@+id/loginButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
@@ -187,5 +187,7 @@
         android:minHeight="48dp"
         android:text="@string/already_have_an_account_login"
         android:textColor="#F5E6CA"
+        android:background="@android:color/transparent"
         android:textStyle="bold" />
+
 </LinearLayout>

@@ -2,4 +2,9 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="nav_bar_color">#1B2838</color> <!-- Change to your desired color -->
+    <color name="nav_icon_color">#FFFFFF</color> <!-- Icon color -->
+    <color name="nav_text_color">#FFFFFF</color> <!-- Text color -->
+
+
 </resources>

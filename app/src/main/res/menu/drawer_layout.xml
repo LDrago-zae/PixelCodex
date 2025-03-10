@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_shop_history"
+        android:icon="@drawable/shop2"
+        android:iconTintMode="src_in"
+        android:title="@string/shop_history" />
+
+    <item
+        android:id="@+id/nav_contact_detail"
+        android:icon="@drawable/recent2"
+        android:iconTintMode="src_in"
+        android:title="@string/recent_activity" />
+
+    <item
+        android:id="@+id/nav_account_security"
+        android:icon="@drawable/favorite2"
+        android:iconTintMode="src_in"
+        android:title="@string/favorites" />
+
+    <item
+        android:id="@+id/nav_share_family"
+        android:icon="@drawable/gift2"
+        android:iconTintMode="src_in"
+        android:title="@string/gift_a_game" />
+
+    <item
+        android:id="@+id/nav_logout"
+        android:icon="@drawable/logout2"
+        android:iconTintMode="src_in"
+        android:title="@string/log_out" /> <!-- Red color for the logout icon -->
+</menu>

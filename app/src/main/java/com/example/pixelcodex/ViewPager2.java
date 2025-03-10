@@ -12,7 +12,7 @@ public class ViewPager2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.view_pager2);  // Set the main activity layout
+        setContentView(R.layout.view_pager2); // Set the main activity layout
 
         // Accessing the CardView and its views programmatically
         CardView gameCard = findViewById(R.id.cardView); // Assuming you have a card view ID
