@@ -1,14 +1,100 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:background="@color/nav_bar_color"
-    android:orientation="vertical">
+    android:background="#1B2838"
+    android:orientation="vertical"
+    android:padding="16dp">
 
-    <TextView
-        android:text="Profile Screen"
-        android:textSize="24sp"
-        android:layout_gravity="center"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"/>
+    <!-- Profile Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/profileImage"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/circle_avatar"
+            android:contentDescription="@string/avatar"
+            android:scaleType="centerCrop"
+            android:src="@drawable/circular_profile" />
+
+        <TextView
+            android:id="@+id/userName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="GhostDragon"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <!-- Stats Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/badgesCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="4"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="5dp"
+                android:layout_height="5dp"
+                android:text="Badges"
+                android:textColor="#B0B0B0"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/gamesCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="15"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="5dp"
+                android:layout_height="5dp"
+                android:text="Games"
+                android:textColor="#B0B0B0"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/friendsCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="42"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="5dp"
+                android:layout_height="5dp"
+                android:text="@string/friends"
+                android:textColor="#B0B0B0"
+                android:textSize="12sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Profile Options (Instead of Games/Favorites) -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/optionsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp" />
 </LinearLayout>

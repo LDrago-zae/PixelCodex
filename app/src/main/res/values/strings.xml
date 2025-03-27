@@ -40,4 +40,6 @@
     <string name="favorites">Favorites</string>
     <string name="recent_activity">Recent Activity</string>
     <string name="shop_history">Shop History</string>
+    <string name="avatar">avatar</string>
+    <string name="friends">Friends</string>
 </resources>

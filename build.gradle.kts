@@ -10,7 +10,7 @@ buildscript {
     }
     dependencies {
         // Define the Android Gradle Plugin classpath here
-        classpath(libs.gradle.v870)  // Update to AGP 8.7.0
+        classpath(libs.gradle)  // Update to AGP 8.7.0
         // If you're using Kotlin, add the Kotlin Gradle Plugin // Optional for Kotlin
     }
 }

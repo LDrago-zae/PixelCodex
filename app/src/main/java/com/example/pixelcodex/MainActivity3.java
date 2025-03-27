@@ -32,7 +32,6 @@ import java.util.Objects;
 public class MainActivity3 extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
-    private ImageView hamburgerMenuButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +40,7 @@ public class MainActivity3 extends AppCompatActivity {
 
 
         drawerLayout = findViewById(R.id.drawer_layout);
-        hamburgerMenuButton = findViewById(R.id.hamburgerMenuButton);
+        ImageView hamburgerMenuButton = findViewById(R.id.hamburgerMenuButton);
 
         // Handle Menu Button Click to Open Drawer
         hamburgerMenuButton.setOnClickListener(view -> drawerLayout.openDrawer(GravityCompat.START));
