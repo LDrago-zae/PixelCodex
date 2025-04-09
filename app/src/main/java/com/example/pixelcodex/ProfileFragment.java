@@ -26,9 +26,9 @@ public class ProfileFragment extends Fragment {
         // Load options data
         List<ProfileOption> options = new ArrayList<>();
         options.add(new ProfileOption(R.drawable.profile2, "Account Info"));
-        options.add(new ProfileOption(R.drawable.edit, "Edit Profile"));
+        options.add(new ProfileOption(R.drawable.edit1, "Edit Profile"));
         options.add(new ProfileOption(R.drawable.gift2, "Gifts"));
-        options.add(new ProfileOption(R.drawable.wishlist2, "Manage Wishlist"));
+        options.add(new ProfileOption(R.drawable.bookmark2, "Manage Wishlist"));
 
         // Set adapter
         ProfileOptionAdapter adapter = new ProfileOptionAdapter(getContext(), options);

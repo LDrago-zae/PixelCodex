@@ -2,9 +2,18 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="nav_bar_color">#1B2838</color> <!-- Change to your desired color -->
+    <color name="nav_bar_color">#1C2526</color> <!-- Change to your desired color -->
     <color name="nav_icon_color">#FFFFFF</color> <!-- Icon color -->
     <color name="nav_text_color">#FFFFFF</color> <!-- Text color -->
-
+    <color name="primary">#00BFFF</color>
+    <color name="background">#1C2526</color>
+    <color name="surface">#2F3A44</color>
+    <color name="text_primary">#FFFFFF</color>
+    <color name="text_secondary">#B0BEC5</color>
+    <color name="crimson_accent">#B0BEC5</color>
+    <style name="TabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
 
 </resources>

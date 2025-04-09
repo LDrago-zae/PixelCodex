@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1B2838"
+    android:background="#121212"
     app:layoutDescription="@xml/test_splash_scene"> <!-- Set background color -->
 
 <!--     You can add your components here (e.g., ImageView for logo, Lottie animation, etc.) -->

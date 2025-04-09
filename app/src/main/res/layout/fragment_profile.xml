@@ -1,7 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1B2838"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#1C2526"
     android:orientation="vertical"
     android:padding="16dp">
 
@@ -9,92 +11,141 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
-        <ImageView
-            android:id="@+id/profileImage"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:background="@drawable/circle_avatar"
-            android:contentDescription="@string/avatar"
-            android:scaleType="centerCrop"
-            android:src="@drawable/circular_profile" />
+        <androidx.cardview.widget.CardView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="16dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="0dp">
+
+            <ImageView
+                android:id="@+id/profileImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/avatar"
+                android:scaleType="centerCrop"
+                android:src="@drawable/circular_profile" />
+        </androidx.cardview.widget.CardView>
 
         <TextView
             android:id="@+id/userName"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_weight="1"
             android:text="GhostDragon"
             android:textColor="#FFFFFF"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:textStyle="bold" />
 
-        <!-- Stats Section -->
-        <LinearLayout
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/view_profile_button"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
+            android:backgroundTint="#2F3A44"
+            android:text="View Profile"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
 
-            <TextView
-                android:id="@+id/badgesCount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                android:text="4"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+    <!-- Stats Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:baselineAligned="false"
+        android:orientation="horizontal"
+        android:gravity="center">
 
-            <TextView
-                android:layout_width="5dp"
-                android:layout_height="5dp"
-                android:text="Badges"
-                android:textColor="#B0B0B0"
-                android:textSize="12sp" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
 
             <TextView
                 android:id="@+id/gamesCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
                 android:text="15"
                 android:textColor="#FFFFFF"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:layout_width="5dp"
-                android:layout_height="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="Games"
-                android:textColor="#B0B0B0"
-                android:textSize="20sp" />
+                android:textColor="#B0BEC5"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
 
             <TextView
                 android:id="@+id/friendsCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="8dp"
                 android:text="42"
                 android:textColor="#FFFFFF"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:layout_width="5dp"
-                android:layout_height="5dp"
-                android:text="@string/friends"
-                android:textColor="#B0B0B0"
-                android:textSize="12sp" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Friends"
+                android:textColor="#B0BEC5"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Funds"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Wallet"
+                android:textColor="#B0BEC5"
+                android:textSize="14sp" />
         </LinearLayout>
     </LinearLayout>
 
-    <!-- Profile Options (Instead of Games/Favorites) -->
+    <!-- Add Friends Button -->
+    <Button
+        android:id="@+id/add_friends_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="#0F111A"
+        android:text="Add friends"
+        android:textColor="#FFFFFF"
+        android:drawableStart="@android:drawable/ic_menu_add"
+        android:paddingStart="16dp" />
+
+    <!-- Profile Options (RecyclerView) -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/optionsRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp" />
+
 </LinearLayout>

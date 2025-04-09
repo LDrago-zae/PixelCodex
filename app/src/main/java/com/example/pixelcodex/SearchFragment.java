@@ -15,9 +15,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class SearchFragment extends Fragment {
-    private RecyclerView categoryRecyclerView;
-    private CategoryAdapter categoryAdapter;
-    private List<String> categories;
     private SearchView searchView;
 
     @Nullable
@@ -26,7 +23,7 @@ public class SearchFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
 
         // Initialize RecyclerView
-        categoryRecyclerView = view.findViewById(R.id.categoryRecyclerView);
+        RecyclerView categoryRecyclerView = view.findViewById(R.id.categoryRecyclerView);
         categoryRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         // Initialize SearchView
@@ -36,12 +33,12 @@ public class SearchFragment extends Fragment {
         setupSearchView();
 
         // Define categories
-        categories = Arrays.asList(
+        List<String> categories = Arrays.asList(
                 "New on Steam", "Adventure", "Action", "Casual", "First person shooter", "Single player", "Multiplayer", "Indie"
         );
 
         // Set adapter
-        categoryAdapter = new CategoryAdapter(getContext(), categories);
+        CategoryAdapter categoryAdapter = new CategoryAdapter(getContext(), categories);
         categoryRecyclerView.setAdapter(categoryAdapter);
 
         // Dismiss keyboard when touching outside SearchView

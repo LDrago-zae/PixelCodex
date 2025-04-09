@@ -129,9 +129,9 @@ public class MainActivity3 extends AppCompatActivity {
                     if (itemId == R.id.nav_search) {
                         selectedFragment = new SearchFragment();
                     } else if (itemId == R.id.nav_news) {
-                        selectedFragment = new NewsFragment();
-                    } else if (itemId == R.id.nav_plus) {
                         selectedFragment = new AddFragment();
+                    } else if (itemId == R.id.nav_plus) {
+                        selectedFragment = new NewsFragment();
                     } else if (itemId == R.id.nav_profile) {
                         selectedFragment = new ProfileFragment();
                     }
