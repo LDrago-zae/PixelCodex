@@ -1,42 +1,214 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#102020"
+    android:fillViewport="true"
     android:padding="16dp"
-    android:background="#121212">
+    android:scrollbars="none">
 
-    <!-- Wrap ImageView in CardView to apply rounded corners -->
-    <androidx.cardview.widget.CardView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:radius="16dp"
-        android:elevation="4dp"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="4dp">
+        android:layout_height="wrap_content"
+        android:paddingBottom="80dp"> <!-- Space for BottomNavigationView -->
 
+        <!-- Back Button -->
         <ImageView
-            android:id="@+id/gameImage"
+            android:id="@+id/backButton"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="16dp"
+            android:contentDescription="Back"
+            android:src="@drawable/arrowback"
+            app:tint="#FFFFFF"
+            android:clickable="true"
+            android:focusable="true"/>
+
+        <!-- Game Image -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/gameImageCard"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop" />
-    </androidx.cardview.widget.CardView>
+            android:layout_height="200dp"
+            android:layout_marginTop="60dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            android:layout_alignParentTop="true">
 
-    <TextView
-        android:id="@+id/gameTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="24sp"
-        android:textColor="#FFFFFF"
-        android:textStyle="bold"
-        android:paddingTop="8dp" />
+            <ImageView
+                android:id="@+id/gameImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop" />
+        </androidx.cardview.widget.CardView>
 
-    <TextView
-        android:id="@+id/gameDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textColor="#BBBBBB"
-        android:paddingTop="4dp" />
-</LinearLayout>
+        <!-- Game Title -->
+        <TextView
+            android:id="@+id/gameTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:layout_below="@id/gameImageCard"
+            android:paddingTop="8dp" />
+
+        <!-- Bookmark Icon -->
+        <ImageView
+            android:id="@+id/bookmarkIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@id/gameImageCard"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="4dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:contentDescription="Bookmark"
+            android:padding="8dp"
+            android:src="@drawable/favorite2"
+            android:background="?selectableItemBackgroundBorderless" />
+
+        <!-- Game Description Card -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/gameDescriptionCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/gameTitle"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="#1A1A1A">
+
+            <TextView
+                android:id="@+id/gameDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="#BBBBBB"
+                android:padding="16dp"
+                android:layout_marginTop="16dp"/>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Minimum Requirements -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/minimumRequirementsCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/gameDescriptionCard"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="#1A1A1A">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <LinearLayout
+                    android:id="@+id/minHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@android:drawable/ic_menu_info_details"
+                        app:tint="#FFFFFF" />
+
+                    <TextView
+                        android:id="@+id/minimumToggle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Minimum Requirements"
+                        android:textColor="#FFFFFF"
+                        android:paddingStart="8dp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/minArrow"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/expand"
+                        app:tint="#FFFFFF" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/minimumDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:paddingTop="8dp"
+                    android:textColor="#CCCCCC"
+                    android:textSize="14sp"
+                    android:text="• OS: Windows 10\n• RAM: 8 GB\n• CPU: Intel i5\n• GPU: GTX 960" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Recommended Requirements -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/recommendedRequirementsCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/minimumRequirementsCard"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="#1A1A1A">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <LinearLayout
+                    android:id="@+id/recHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@android:drawable/ic_menu_manage"
+                        app:tint="#FFFFFF" />
+
+                    <TextView
+                        android:id="@+id/recommendedToggle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Recommended Requirements"
+                        android:textColor="#FFFFFF"
+                        android:paddingStart="8dp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/recArrow"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/expand"
+                        app:tint="#FFFFFF" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/recommendedDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:paddingTop="8dp"
+                    android:textColor="#CCCCCC"
+                    android:textSize="14sp"
+                    android:text="• OS: Windows 11\n• RAM: 16 GB\n• CPU: Intel i7\n• GPU: RTX 2060" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+</ScrollView>

@@ -42,4 +42,8 @@
     <string name="shop_history">Shop History</string>
     <string name="avatar">avatar</string>
     <string name="friends">Friends</string>
+    <string name="back_button">back_button</string>
+    <string name="settings">settings</string>
+    <string name="privacy_policy">privacy_policy</string>
+    <string name="contact_support">support</string>
 </resources>

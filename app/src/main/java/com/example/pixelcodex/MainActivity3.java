@@ -53,10 +53,18 @@ public class MainActivity3 extends AppCompatActivity {
             Toast.makeText(MainActivity3.this, itemName + " clicked", Toast.LENGTH_SHORT).show();
 
             // Handle item clicks later
-            if (itemId == R.id.nav_logout) {
-                // Example: Close drawer on logout click (implement logout later)
+            if (itemId == R.id.nav_wishlist) {
+                // Load WishlistFragment
+                findViewById(R.id.main).setVisibility(View.GONE);
+                findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
+                loadFragment(new WishlistFragment());
+            } else if (itemId == R.id.nav_logout) {
                 showLogoutConfirmation();
             }
+
+            // Close the drawer after selection
+            drawerLayout.closeDrawer(GravityCompat.START);
+
 
             return true;
         });

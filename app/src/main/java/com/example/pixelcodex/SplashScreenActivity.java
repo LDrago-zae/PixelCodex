@@ -53,8 +53,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                 "Your favourite games",
                 "New releases",
                 "Trailers",
-                "Gameplays",
-                "and more",
+                "and Gameplays",
                 "in a single App"
         };
 

@@ -13,7 +13,7 @@
         android:title="@string/recent_activity" />
 
     <item
-        android:id="@+id/nav_account_security"
+        android:id="@+id/nav_wishlist"
         android:icon="@drawable/favorite2"
         android:iconTintMode="src_in"
         android:title="@string/favorites" />
@@ -23,6 +23,31 @@
         android:icon="@drawable/gift2"
         android:iconTintMode="src_in"
         android:title="@string/gift_a_game" />
+
+    <item
+        android:id="@+id/nav_settings"
+        android:icon="@drawable/settings"
+        android:iconTintMode="src_in"
+        android:title="@string/settings" />
+
+<!--    <item-->
+<!--        android:id="@+id/nav_about_us"-->
+<!--        android:icon="@drawable/info2"-->
+<!--        android:iconTintMode="src_in"-->
+<!--        android:title="@string/about_us" />-->
+
+    <item
+        android:id="@+id/privacy_policy"
+        android:icon="@drawable/privacypolicy"
+        android:iconTintMode="src_in"
+        android:title="@string/privacy_policy" />
+
+    <item
+        android:id="@+id/contact_support"
+        android:icon="@drawable/support"
+        android:iconTintMode="src_in"
+        android:title="@string/contact_support" />
+
 
     <item
         android:id="@+id/nav_logout"

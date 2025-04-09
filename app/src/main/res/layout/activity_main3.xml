@@ -26,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="#1C2526">
+                android:background="#102020">
 
                 <!-- Top Bar -->
                 <LinearLayout
@@ -103,7 +103,7 @@
                     android:id="@+id/newOnSteamRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
                     android:orientation="horizontal"
                     android:nestedScrollingEnabled="false"
                     android:paddingStart="16dp"
@@ -129,7 +129,7 @@
                     android:paddingEnd="16dp"
                     android:orientation="horizontal"
                     android:nestedScrollingEnabled="false"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
                     tools:listitem="@layout/recommended_layout" />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
