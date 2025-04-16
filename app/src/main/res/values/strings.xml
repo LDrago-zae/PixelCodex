@@ -46,4 +46,7 @@
     <string name="settings">settings</string>
     <string name="privacy_policy">privacy_policy</string>
     <string name="contact_support">support</string>
+    <string name="about_us">aboutus</string>
+    <string name="notifications">Enable Notifications</string>
+    <string name="game_image">game image</string>
 </resources>

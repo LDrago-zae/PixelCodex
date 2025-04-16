@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
@@ -32,40 +33,40 @@ import java.util.Objects;
 public class MainActivity3 extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
+    private BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main3);
 
-
         drawerLayout = findViewById(R.id.drawer_layout);
         ImageView hamburgerMenuButton = findViewById(R.id.hamburgerMenuButton);
+        bottomNavigationView = findViewById(R.id.bottomNav);
 
         // Handle Menu Button Click to Open Drawer
         hamburgerMenuButton.setOnClickListener(view -> drawerLayout.openDrawer(GravityCompat.START));
 
-//         Initialize NavigationView (optional: if you want to handle clicks later)
+        // Initialize NavigationView
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(item -> {
             int itemId = item.getItemId();
             String itemName = Objects.requireNonNull(item.getTitle()).toString();
             Toast.makeText(MainActivity3.this, itemName + " clicked", Toast.LENGTH_SHORT).show();
 
-            // Handle item clicks later
             if (itemId == R.id.nav_wishlist) {
-                // Load WishlistFragment
                 findViewById(R.id.main).setVisibility(View.GONE);
                 findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
                 loadFragment(new WishlistFragment());
             } else if (itemId == R.id.nav_logout) {
                 showLogoutConfirmation();
+            } else if (itemId == R.id.nav_settings) {
+                findViewById(R.id.main).setVisibility(View.GONE);
+                findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
+                loadFragment(new SettingsFragment());
             }
 
-            // Close the drawer after selection
             drawerLayout.closeDrawer(GravityCompat.START);
-
-
             return true;
         });
 
@@ -114,50 +115,82 @@ public class MainActivity3 extends AppCompatActivity {
         CodexGameAdapter recommendedAdapter = new CodexGameAdapter(recommendedGames);
         recommendedRecyclerView.setAdapter(recommendedAdapter);
 
-        // Initialize BottomNavigationView
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNav);
-
         // Handle BottomNavigationView item clicks
-        bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.nav_home) {
+                // Clear back stack and show home screen
+                getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                findViewById(R.id.main).setVisibility(View.VISIBLE);
+                findViewById(R.id.fragment_container).setVisibility(View.GONE);
+            } else {
+                findViewById(R.id.main).setVisibility(View.GONE);
+                findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
+
                 Fragment selectedFragment = null;
-                int itemId = item.getItemId();
-
-                if (itemId == R.id.nav_home) {
-                    // Clear back stack and show home screen
-                    getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                    findViewById(R.id.main).setVisibility(View.VISIBLE);
-                    findViewById(R.id.fragment_container).setVisibility(View.GONE);
-                } else {
-                    findViewById(R.id.main).setVisibility(View.GONE);
-                    findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
-
-                    // Set the fragment to load based on the selected item
-                    if (itemId == R.id.nav_search) {
-                        selectedFragment = new SearchFragment();
-                    } else if (itemId == R.id.nav_news) {
-                        selectedFragment = new AddFragment();
-                    } else if (itemId == R.id.nav_plus) {
-                        selectedFragment = new NewsFragment();
-                    } else if (itemId == R.id.nav_profile) {
-                        selectedFragment = new ProfileFragment();
-                    }
-
-                    if (selectedFragment != null) {
-                        loadFragment(selectedFragment);
-                    }
+                if (itemId == R.id.nav_search) {
+                    selectedFragment = new SearchFragment();
+                } else if (itemId == R.id.nav_news) {
+                    selectedFragment = new AddFragment();
+                } else if (itemId == R.id.nav_plus) {
+                    selectedFragment = new NewsFragment();
+                } else if (itemId == R.id.nav_profile) {
+                    selectedFragment = new ProfileFragment();
                 }
-                return true;
+
+                if (selectedFragment != null) {
+                    loadFragment(selectedFragment);
+                }
             }
+            return true;
         });
 
+        // Ensure the home screen is visible on startup
+        if (savedInstanceState == null) {
+            bottomNavigationView.setSelectedItemId(R.id.nav_home);
+        }
+
+        // Set up back press handling using OnBackPressedDispatcher
+        OnBackPressedCallback callback = new OnBackPressedCallback(true /* enabled by default */) {
+            @Override
+            public void handleOnBackPressed() {
+                // Check if the drawer is open
+                if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    drawerLayout.closeDrawer(GravityCompat.START);
+                    return;
+                }
+
+                // Check the fragment back stack
+                int backStackCount = getSupportFragmentManager().getBackStackEntryCount();
+                if (backStackCount > 0) {
+                    // Pop the top fragment from the back stack
+                    getSupportFragmentManager().popBackStack();
+
+                    // If the back stack is now empty, return to the home screen
+                    if (backStackCount == 1) {
+                        findViewById(R.id.main).setVisibility(View.VISIBLE);
+                        findViewById(R.id.fragment_container).setVisibility(View.GONE);
+                        bottomNavigationView.setSelectedItemId(R.id.nav_home);
+                    }
+                } else {
+                    // No fragments in the back stack, finish the activity
+                    finish();
+                }
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
     // Open game details fragment when a game is clicked
     private void openGameDetailsFragment(Game game) {
         GameDetailsFragment fragment = GameDetailsFragment.newInstance(game.title, game.imageResId);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(
+                R.anim.slide_in_right,
+                R.anim.slide_out_left,
+                R.anim.slide_in_left,
+                R.anim.slide_out_right
+        );
         transaction.replace(R.id.fragment_container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
@@ -166,6 +199,12 @@ public class MainActivity3 extends AppCompatActivity {
     // Method to replace fragment
     private void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.setCustomAnimations(
+                R.anim.slide_in_right,
+                R.anim.slide_out_left,
+                R.anim.slide_in_left,
+                R.anim.slide_out_right
+        );
         transaction.replace(R.id.fragment_container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
@@ -206,7 +245,6 @@ public class MainActivity3 extends AppCompatActivity {
             holder.featuredTitle.setText(game.title);
             holder.featuredImage.setImageResource(game.imageResId);
 
-
             // Handle click event
             holder.itemView.setOnClickListener(v -> listener.onGameClick(game));
         }
@@ -227,47 +265,22 @@ public class MainActivity3 extends AppCompatActivity {
             }
         }
 
-        // Interface for handling game click events
         interface OnGameClickListener {
             void onGameClick(Game game);
         }
     }
 
     private void showLogoutConfirmation() {
-        // Create an AlertDialog.Builder
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        // Set title and message
         builder.setTitle("Logout")
                 .setMessage("Are you sure you want to logout?");
-
-        // Set the "Yes" button
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Handle logout logic here
-                Toast.makeText(MainActivity3.this, "You have logged out.", Toast.LENGTH_SHORT).show();
-                finish(); // Close the current activity (or navigate to login screen)
-            }
+        builder.setPositiveButton("Yes", (dialog, which) -> {
+            Toast.makeText(MainActivity3.this, "You have logged out.", Toast.LENGTH_SHORT).show();
+            finish();
         });
-
-        // Set the "No" button
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Dismiss the dialog
-                dialog.dismiss();
-            }
-        });
-
-        // Create the dialog
+        builder.setNegativeButton("No", (dialog, which) -> dialog.dismiss());
         AlertDialog dialog = builder.create();
-
-        // Set the background of the dialog to the rounded drawable
         Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(R.drawable.alert_dialogue_rounded_background);
-
-        // Show the dialog
         dialog.show();
     }
-
 }
