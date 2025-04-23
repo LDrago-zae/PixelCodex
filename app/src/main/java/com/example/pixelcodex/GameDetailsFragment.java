@@ -10,10 +10,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import com.bumptech.glide.Glide;
 
 public class GameDetailsFragment extends Fragment {
 
@@ -57,7 +58,13 @@ public class GameDetailsFragment extends Fragment {
 
         // Set game data
         titleTextView.setText(gameTitle);
-        gameImageView.setImageResource(gameImageResId);
+
+        // Use Glide to load the game image
+        Glide.with(this) // Use the fragment as the context
+                .load(gameImageResId) // Load the resource ID
+                .centerCrop() // Optional: Adjust the image to fit the ImageView
+                .into(gameImageView); // Target ImageView
+
         descriptionTextView.setText("Welcome to San Francisco, the birthplace of the technological revolution. "
                 + "Play as young Marcus, a brilliant hacker, and join DedSec, the most celebrated hacker group. "
                 + "Your goal: the largest hacking operation in history.");
@@ -77,12 +84,6 @@ public class GameDetailsFragment extends Fragment {
             updateBookmarkIcon();
         });
 
-        // Handle back button click
-        backButton.setOnClickListener(v -> {
-            // Pop the current fragment from the back stack to go back
-            requireActivity().getSupportFragmentManager().popBackStack();
-        });
-
         // Set up Minimum Requirements section
         LinearLayout minHeader = view.findViewById(R.id.minHeader);
         TextView minDetails = view.findViewById(R.id.minimumDetails);
@@ -98,6 +99,9 @@ public class GameDetailsFragment extends Fragment {
                 minArrow.setRotation(0);
             }
         });
+
+        // Back button functionality
+        backButton.setOnClickListener(v -> requireActivity().getOnBackPressedDispatcher().onBackPressed());
 
         // Set up Recommended Requirements section
         LinearLayout recHeader = view.findViewById(R.id.recHeader);

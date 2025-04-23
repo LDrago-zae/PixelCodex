@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -127,16 +128,7 @@ public class MainActivity3 extends AppCompatActivity {
                 findViewById(R.id.main).setVisibility(View.GONE);
                 findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
 
-                Fragment selectedFragment = null;
-                if (itemId == R.id.nav_search) {
-                    selectedFragment = new SearchFragment();
-                } else if (itemId == R.id.nav_news) {
-                    selectedFragment = new AddFragment();
-                } else if (itemId == R.id.nav_plus) {
-                    selectedFragment = new NewsFragment();
-                } else if (itemId == R.id.nav_profile) {
-                    selectedFragment = new ProfileFragment();
-                }
+                Fragment selectedFragment = getSelectedFragment(itemId);
 
                 if (selectedFragment != null) {
                     loadFragment(selectedFragment);
@@ -181,8 +173,27 @@ public class MainActivity3 extends AppCompatActivity {
         getOnBackPressedDispatcher().addCallback(this, callback);
     }
 
+    @Nullable
+    private static Fragment getSelectedFragment(int itemId) {
+        Fragment selectedFragment = null;
+        if (itemId == R.id.nav_search) {
+            selectedFragment = new SearchFragment();
+        } else if (itemId == R.id.nav_news) {
+            selectedFragment = new AddFragment();
+        } else if (itemId == R.id.nav_plus) {
+            selectedFragment = new NewsFragment();
+        } else if (itemId == R.id.nav_profile) {
+            selectedFragment = new ProfileFragment();
+        } else return selectedFragment;
+        return selectedFragment;
+    }
+
     // Open game details fragment when a game is clicked
     private void openGameDetailsFragment(Game game) {
+
+        findViewById(R.id.main).setVisibility(View.GONE);
+        findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
+
         GameDetailsFragment fragment = GameDetailsFragment.newInstance(game.title, game.imageResId);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.setCustomAnimations(
