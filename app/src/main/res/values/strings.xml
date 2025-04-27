@@ -8,6 +8,7 @@
     <string name="google_login">Google Login</string>
     <string name="or_sign_in_with">or sign in with</string>
     <string name="sign_in">SIGN IN</string>
+    <string name="default_web_client_id">480020180531-5tjksengh6utc28g42redaroekp0in5n.apps.googleusercontent.com</string>
     <string name="password">Password</string>
     <string name="email">Email</string>
     <!-- Strings used for fragments for navigation -->
