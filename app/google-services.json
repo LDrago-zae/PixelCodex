@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "480020180531",
+    "project_id": "pixelcodex-66dec",
+    "storage_bucket": "pixelcodex-66dec.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:480020180531:android:3cb8639efedc689c46fd46",
+        "android_client_info": {
+          "package_name": "com.example.pixelcodex"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBC8sIDv_GGqR-mUB9Slsky2AFSCXYSHms"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
