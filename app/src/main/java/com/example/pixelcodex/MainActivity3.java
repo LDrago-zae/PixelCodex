@@ -2,6 +2,7 @@ package com.example.pixelcodex;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -26,6 +27,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,11 +37,15 @@ public class MainActivity3 extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private BottomNavigationView bottomNavigationView;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main3);
+
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
 
         drawerLayout = findViewById(R.id.drawer_layout);
         ImageView hamburgerMenuButton = findViewById(R.id.hamburgerMenuButton);
@@ -184,13 +190,12 @@ public class MainActivity3 extends AppCompatActivity {
             selectedFragment = new NewsFragment();
         } else if (itemId == R.id.nav_profile) {
             selectedFragment = new ProfileFragment();
-        } else return selectedFragment;
+        }
         return selectedFragment;
     }
 
     // Open game details fragment when a game is clicked
     private void openGameDetailsFragment(Game game) {
-
         findViewById(R.id.main).setVisibility(View.GONE);
         findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
 
@@ -286,7 +291,13 @@ public class MainActivity3 extends AppCompatActivity {
         builder.setTitle("Logout")
                 .setMessage("Are you sure you want to logout?");
         builder.setPositiveButton("Yes", (dialog, which) -> {
+            // Perform logout action
+            mAuth.signOut();
             Toast.makeText(MainActivity3.this, "You have logged out.", Toast.LENGTH_SHORT).show();
+            // Navigate to MainActivity (login screen) and clear the activity stack
+            Intent intent = new Intent(MainActivity3.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
             finish();
         });
         builder.setNegativeButton("No", (dialog, which) -> dialog.dismiss());

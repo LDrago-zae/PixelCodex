@@ -1,5 +1,6 @@
 package com.example.pixelcodex;
 
+import android.annotation.SuppressLint;
 import android.graphics.Typeface;
 import androidx.core.content.res.ResourcesCompat;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.airbnb.lottie.LottieAnimationView;
 import androidx.appcompat.app.AppCompatActivity;
 
+@SuppressLint("CustomSplashScreen")
 public class SplashScreenActivity extends AppCompatActivity {
 
     private ImageView logoImage;

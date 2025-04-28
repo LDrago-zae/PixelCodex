@@ -49,6 +49,8 @@ dependencies {
     implementation(libs.credentials.play.services.auth)
     implementation(libs.googleid)
     implementation(libs.firebase.database)
+    implementation (libs.play.services.auth) // Add this line for Google Sign In
+    implementation (libs.firebase.auth.v2300)
 
     // Testing dependencies
     testImplementation(libs.junit)
