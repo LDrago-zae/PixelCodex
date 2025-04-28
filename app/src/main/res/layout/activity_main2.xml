@@ -198,6 +198,12 @@
         android:background="@android:color/transparent"
         android:textStyle="bold" />
 
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:id="@+id/progressBar"/>
+
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/loaderAnimation"
         android:layout_width="50dp"

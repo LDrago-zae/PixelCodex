@@ -3,6 +3,8 @@
     <string name="applogo">App Logo</string>
     <string name="sign_in_to_your_account">Sign in to your account</string>
     <string name="todo">TODO</string>
+    <string name="discord_client_id">1366507120278896812</string>
+    <string name="discord_redirect_url">https://pixelcodex-66dec.firebaseapp.com/__/auth/handler</string>
     <string name="don_t_have_an_account_sign_up">Don\'t have an account? SIGN UP</string>
     <string name="steam_login">Steam Login</string>
     <string name="google_login">Google Login</string>

@@ -51,6 +51,8 @@ dependencies {
     implementation(libs.firebase.database)
     implementation (libs.play.services.auth) // Add this line for Google Sign In
     implementation (libs.firebase.auth.v2300)
+    implementation (libs.okhttp) // For HTTP requests
+    implementation (libs.json)
 
     // Testing dependencies
     testImplementation(libs.junit)
