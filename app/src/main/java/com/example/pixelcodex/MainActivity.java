@@ -3,6 +3,7 @@ package com.example.pixelcodex;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.CancellationSignal;
 import android.text.TextUtils;
@@ -33,7 +34,16 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.concurrent.Executors;
+
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,6 +53,10 @@ public class MainActivity extends AppCompatActivity {
     private CredentialManager credentialManager;
     private ProgressBar progressBar;
     private LottieAnimationView lottieProgress;
+    private OkHttpClient client;
+    private SessionDatabaseHelper dbHelper;
+    private String discordAccessToken;
+    private String discordUserId;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -56,22 +70,26 @@ public class MainActivity extends AppCompatActivity {
         // Initialize Credential Manager
         credentialManager = CredentialManager.create(this);
 
+        // Initialize OkHttpClient
+        client = new OkHttpClient();
+
+        // Initialize SQLite Database Helper
+        dbHelper = new SessionDatabaseHelper(this);
+
         // Find views
         emailEditText = findViewById(R.id.emailField);
         passwordEditText = findViewById(R.id.passwordField);
         Button signInButton = findViewById(R.id.signInButton);
         Button signUpButton = findViewById(R.id.signUpText);
         ImageButton googleSignInButton = findViewById(R.id.googleIcon);
-        ImageButton steamSignInButton = findViewById(R.id.steamIcon);
+        ImageButton discordSignInButton = findViewById(R.id.steamIcon); // Renamed to discordSignInButton
         progressBar = findViewById(R.id.progressBar);
         lottieProgress = findViewById(R.id.loaderAnimation);
-        // Root layout for touch events
-        LinearLayout rootLayout = findViewById(R.id.main); // Initialize root layout
+        LinearLayout rootLayout = findViewById(R.id.main);
 
-        // Set touch listener on root layout to clear focus and hide keyboard
         rootLayout.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) clearFocusAndHideKeyboard();
-            return false; // Allow other touch events to propagate
+            return false;
         });
 
         // Configure Google Sign-In request
@@ -124,8 +142,17 @@ public class MainActivity extends AppCompatActivity {
             );
         });
 
-        // Steam Sign-In Button Listener (Placeholder)
-        steamSignInButton.setOnClickListener(v -> Toast.makeText(MainActivity.this, "Steam Sign-In not implemented", Toast.LENGTH_SHORT).show());
+        // Discord Sign-In Button Listener
+        discordSignInButton.setOnClickListener(v -> {
+            String discordAuthUrl = "https://discord.com/api/oauth2/authorize" +
+                    "?client_id=" + getString(R.string.discord_client_id) +
+                    "&redirect_uri=" + Uri.encode("pixelcodex://callback") +
+                    "&response_type=code" +
+                    "&scope=identify%20email";
+
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(discordAuthUrl));
+            startActivity(intent);
+        });
 
         // Sign In Button Listener (Email/Password)
         signInButton.setOnClickListener(v -> loginUser());
@@ -140,11 +167,105 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        // Check if user is already logged in
+        // Check if user is already signed in (Firebase Auth for Google/Email or Discord session in SQLite)
         if (mAuth.getCurrentUser() != null) {
+            // User is signed in with Firebase (Google or Email/Password)
             Intent intent = new Intent(MainActivity.this, MainActivity3.class);
             startActivity(intent);
             finish();
+        } else {
+            // Check for Discord session in SQLite
+            checkDiscordSession();
+        }
+    }
+
+    @Override
+    protected void onNewIntent(@NonNull Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+        handleDiscordCallback();
+    }
+
+    private void checkDiscordSession() {
+        String[] sessionData = dbHelper.getSession();
+        discordAccessToken = sessionData[0];
+        discordUserId = sessionData[1];
+
+        if (discordAccessToken != null && discordUserId != null) {
+            // User has a valid Discord session
+            Toast.makeText(MainActivity.this, "Signed in with Discord!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(MainActivity.this, MainActivity3.class);
+            startActivity(intent);
+            finish();
+        }
+    }
+
+    private void handleDiscordCallback() {
+        Uri uri = getIntent().getData();
+        if (uri != null && uri.toString().startsWith("pixelcodex://callback")) {
+            String code = uri.getQueryParameter("code");
+            if (code != null) {
+                lottieProgress.setVisibility(View.VISIBLE);
+                lottieProgress.playAnimation();
+                new Thread(() -> {
+                    try {
+                        // Exchange the code for an access token
+                        RequestBody formBody = new FormBody.Builder()
+                                .add("client_id", getString(R.string.discord_client_id))
+                                .add("client_secret", getString(R.string.discord_client_secret))
+                                .add("grant_type", "authorization_code")
+                                .add("code", code)
+                                .add("redirect_uri", "pixelcodex://callback")
+                                .build();
+
+                        Request request = new Request.Builder()
+                                .url("https://discord.com/api/oauth2/token")
+                                .post(formBody)
+                                .header("Content-Type", "application/x-www-form-urlencoded")
+                                .build();
+
+                        try (Response response = client.newCall(request).execute()) {
+                            if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
+                            String responseBody = response.body().string();
+                            JSONObject json = new JSONObject(responseBody);
+                            discordAccessToken = json.getString("access_token");
+
+                            // Get the Discord user ID
+                            Request userRequest = new Request.Builder()
+                                    .url("https://discord.com/api/users/@me")
+                                    .header("Authorization", "Bearer " + discordAccessToken)
+                                    .build();
+
+                            try (Response userResponse = client.newCall(userRequest).execute()) {
+                                if (!userResponse.isSuccessful()) throw new IOException("Unexpected code " + userResponse);
+                                String userResponseBody = userResponse.body().string();
+                                JSONObject userJson = new JSONObject(userResponseBody);
+                                discordUserId = userJson.getString("id");
+
+                                // Store the Discord session in SQLite
+                                dbHelper.saveSession(discordAccessToken, discordUserId);
+
+                                runOnUiThread(() -> {
+                                    lottieProgress.setVisibility(View.GONE);
+                                    lottieProgress.cancelAnimation();
+                                    Toast.makeText(this, "Discord Sign-In Successful!", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(MainActivity.this, MainActivity3.class);
+                                    startActivity(intent);
+                                    finish();
+                                });
+                            }
+                        }
+                    } catch (Exception e) {
+                        runOnUiThread(() -> {
+                            lottieProgress.setVisibility(View.GONE);
+                            lottieProgress.cancelAnimation();
+                            Toast.makeText(this, "Discord Sign-In Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        });
+                    }
+                }).start();
+            } else {
+                Toast.makeText(this, "Discord Sign-In failed: No code received", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -155,13 +276,13 @@ public class MainActivity extends AppCompatActivity {
                     lottieProgress.setVisibility(View.GONE);
                     lottieProgress.cancelAnimation();
                     if (task.isSuccessful()) {
-                        Toast.makeText(MainActivity.this, "Google Sign-In Successful!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Google Sign-In Successful!", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(MainActivity.this, MainActivity3.class);
                         startActivity(intent);
                         finish();
                     } else {
                         Log.e(TAG, "signInWithCredential:failure", task.getException());
-                        Toast.makeText(MainActivity.this, "Google Sign-In Failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(this, "Google Sign-In Failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
     }
@@ -205,13 +326,10 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    // Helper method to clear focus and hide keyboard
     private void clearFocusAndHideKeyboard() {
-        // Clear focus from EditText fields
         emailEditText.clearFocus();
         passwordEditText.clearFocus();
 
-        // Hide the keyboard
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         View currentFocus = getCurrentFocus();
         if (currentFocus != null) {

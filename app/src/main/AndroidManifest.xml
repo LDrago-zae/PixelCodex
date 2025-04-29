@@ -35,7 +35,12 @@
         <activity
             android:name=".MainActivity"
             android:exported="true">
-            <!-- MainActivity is no longer the launcher activity -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="pixelcodex" android:host="callback" />
+            </intent-filter>
         </activity>
 
     </application>
