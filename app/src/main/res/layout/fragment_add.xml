@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    android:background="#121212"
+    android:background="#102020"
     android:padding="16dp">
 
     <!-- Card for Content -->

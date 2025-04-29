@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Background color of the field -->
-    <solid android:color="#1C2526" /> <!-- Slightly darker than surface for contrast -->
+    <solid android:color="#F5E6CA" /> <!-- Slightly darker than surface for contrast -->
 
     <!-- Round all corners -->
     <corners android:radius="12dp" />

@@ -19,10 +19,10 @@
         android:title="@string/favorites" />
 
     <item
-        android:id="@+id/nav_share_family"
-        android:icon="@drawable/gift2"
+        android:id="@+id/nav_game_request"
+        android:icon="@drawable/request"
         android:iconTintMode="src_in"
-        android:title="@string/gift_a_game" />
+        android:title="@string/game_requests" />
 
     <item
         android:id="@+id/nav_settings"

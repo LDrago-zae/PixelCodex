@@ -5,13 +5,13 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="@android:color/transparent">
+    android:background="#0F111A">
 
     <!-- Title of the Bottom Sheet -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Request a Game"
+        android:text="@string/request_a_game"
         android:textColor="@color/text_primary"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -32,10 +32,11 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/edit_game_title"
             android:layout_width="match_parent"
+            android:hint="Game Title"
             android:layout_height="wrap_content"
             android:inputType="text"
-            android:textColor="@color/text_primary"
-            android:textColorHint="@color/text_secondary"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
             android:textSize="16sp"
             android:background="@android:color/transparent" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -58,9 +59,10 @@
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"
             android:lines="3"
+            android:hint="Description"
             android:maxLines="5"
-            android:textColor="@color/text_primary"
-            android:textColorHint="@color/text_secondary"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
             android:textSize="16sp"
             android:background="@android:color/transparent" />
     </com.google.android.material.textfield.TextInputLayout>
@@ -82,8 +84,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="none"
-            android:textColor="@color/text_primary"
-            android:textColorHint="@color/text_secondary"
+            android:hint="Platform"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
             android:textSize="16sp"
             android:background="@android:color/transparent"
             />
@@ -96,7 +99,7 @@
         android:layout_height="60dp"
         android:layout_gravity="center"
         android:layout_marginTop="24dp"
-        android:backgroundTint="#000000"
+        android:backgroundTint="#283593"
         android:text="Submit Request"
         android:textColor="@color/text_primary"
         android:textStyle="bold" />

@@ -15,13 +15,22 @@ import androidx.fragment.app.Fragment;
 import com.airbnb.lottie.LottieAnimationView;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AddFragment extends Fragment {
+
+    private DatabaseReference databaseReference;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add, container, false);
+
+        // Initialize Firebase Realtime Database
+        databaseReference = FirebaseDatabase.getInstance().getReference("game_requests");
 
         // Find the Lottie animation and text views
         LottieAnimationView addAnimation = view.findViewById(R.id.add_animation);
@@ -84,19 +93,35 @@ public class AddFragment extends Fragment {
                 return;
             }
 
-            // Show a Toast with the entered data
-            String message = "Game Request Submitted:\n" +
-                    "Title: " + gameTitle + "\n" +
-                    "Description: " + gameDescription + "\n" +
-                    "Platform: " + gamePlatform;
-            Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
+            // Create a HashMap to store the game request data
+            Map<String, Object> requestData = new HashMap<>();
+            requestData.put("title", gameTitle);
+            requestData.put("description", gameDescription);
+            requestData.put("platform", gamePlatform);
+            requestData.put("timestamp", System.currentTimeMillis());
 
-            // TODO: Send the data to the admin side (to be implemented later)
-            // GameRequest request = new GameRequest(gameTitle, gameDescription, gamePlatform);
-            // sendToAdmin(request);
+            // Write to Firebase Realtime Database
+            String requestId = databaseReference.push().getKey(); // Generate a unique ID for the request
+            if (requestId != null) {
+                databaseReference.child(requestId).setValue(requestData)
+                        .addOnSuccessListener(aVoid -> {
+                            // Show success message
+                            String message = "Game Request Submitted:\n" +
+                                    "Title: " + gameTitle + "\n" +
+                                    "Description: " + gameDescription + "\n" +
+                                    "Platform: " + gamePlatform;
+                            Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
 
-            // Dismiss the bottom sheet
-            bottomSheetDialog.dismiss();
+                            // Dismiss the bottom sheet
+                            bottomSheetDialog.dismiss();
+                        })
+                        .addOnFailureListener(e -> {
+                            // Show error message
+                            Toast.makeText(getContext(), "Failed to submit request: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                        });
+            } else {
+                Toast.makeText(getContext(), "Failed to generate request ID", Toast.LENGTH_SHORT).show();
+            }
         });
 
         // Show the bottom sheet

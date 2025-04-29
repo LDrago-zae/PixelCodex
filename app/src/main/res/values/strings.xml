@@ -53,4 +53,6 @@
     <string name="about_us">aboutus</string>
     <string name="notifications">Enable Notifications</string>
     <string name="game_image">game image</string>
+    <string name="request_a_game">Request a Game</string>
+    <string name="game_requests">Game Requests</string>
 </resources>
