@@ -13,15 +13,17 @@
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchView"
         android:layout_width="match_parent"
+        app:searchIcon="@drawable/search3"
         android:layout_height="50dp"
         android:background="@drawable/search_background"
-        android:queryHint="Search games..."
+        android:hint="@string/search_games"
         android:iconifiedByDefault="false"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:clickable="true"
         android:padding="8dp"
-        android:textColorHint="#8F8F8F"
+        android:textColorHint="@color/black"
+        android:textColor="@color/black"
         app:queryBackground="@android:color/transparent"
         app:submitBackground="@android:color/transparent"/>
 

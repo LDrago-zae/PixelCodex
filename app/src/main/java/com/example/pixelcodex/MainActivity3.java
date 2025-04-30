@@ -65,12 +65,16 @@ public class MainActivity3 extends AppCompatActivity {
                 findViewById(R.id.main).setVisibility(View.GONE);
                 findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
                 loadFragment(new WishlistFragment());
-            } else if (itemId == R.id.nav_logout) {
-                showLogoutConfirmation();
+            } else if (itemId == R.id.nav_game_request) {
+                findViewById(R.id.main).setVisibility(View.GONE);
+                findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
+                loadFragment(new GameRequestsFragment());
             } else if (itemId == R.id.nav_settings) {
                 findViewById(R.id.main).setVisibility(View.GONE);
                 findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
                 loadFragment(new SettingsFragment());
+            } else if (itemId == R.id.nav_logout) {
+                showLogoutConfirmation();
             }
 
             drawerLayout.closeDrawer(GravityCompat.START);

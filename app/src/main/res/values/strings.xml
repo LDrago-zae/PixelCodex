@@ -55,4 +55,10 @@
     <string name="game_image">game image</string>
     <string name="request_a_game">Request a Game</string>
     <string name="game_requests">Game Requests</string>
+    <string name="search_games">Search games...</string>
+    <string name="delete">Delete</string>
+    <string name="update">Update</string>
+    <string name="cancel">Cancel</string>
+    <string name="platform">Platform</string>
+    <string name="game_description">Game Description</string>
 </resources>

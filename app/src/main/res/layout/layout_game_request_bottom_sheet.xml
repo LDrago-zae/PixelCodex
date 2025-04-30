@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="16dp"
-    android:background="#0F111A">
+    android:background="#102020">
 
     <!-- Title of the Bottom Sheet -->
     <TextView
