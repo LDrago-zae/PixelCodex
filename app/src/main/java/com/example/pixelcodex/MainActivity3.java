@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -38,6 +40,7 @@ public class MainActivity3 extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private BottomNavigationView bottomNavigationView;
     private FirebaseAuth mAuth;
+    private FloatingActionButton geminiFab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +53,10 @@ public class MainActivity3 extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawer_layout);
         ImageView hamburgerMenuButton = findViewById(R.id.hamburgerMenuButton);
         bottomNavigationView = findViewById(R.id.bottomNav);
+        geminiFab = findViewById(R.id.geminiFab);
+        LinearLayout mainLayout = findViewById(R.id.main);
+
+        geminiFab.setImageTintList(null);
 
         // Handle Menu Button Click to Open Drawer
         hamburgerMenuButton.setOnClickListener(view -> drawerLayout.openDrawer(GravityCompat.START));
@@ -64,14 +71,17 @@ public class MainActivity3 extends AppCompatActivity {
             if (itemId == R.id.nav_wishlist) {
                 findViewById(R.id.main).setVisibility(View.GONE);
                 findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
+                geminiFab.setVisibility(View.GONE); // Hide FAB when not on home screen
                 loadFragment(new WishlistFragment());
             } else if (itemId == R.id.nav_game_request) {
                 findViewById(R.id.main).setVisibility(View.GONE);
                 findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
+                geminiFab.setVisibility(View.GONE); // Hide FAB when not on home screen
                 loadFragment(new GameRequestsFragment());
             } else if (itemId == R.id.nav_settings) {
                 findViewById(R.id.main).setVisibility(View.GONE);
                 findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
+                geminiFab.setVisibility(View.GONE); // Hide FAB when not on home screen
                 loadFragment(new SettingsFragment());
             } else if (itemId == R.id.nav_logout) {
                 showLogoutConfirmation();
@@ -126,6 +136,15 @@ public class MainActivity3 extends AppCompatActivity {
         CodexGameAdapter recommendedAdapter = new CodexGameAdapter(recommendedGames);
         recommendedRecyclerView.setAdapter(recommendedAdapter);
 
+        // Set up FAB click listener to open Gemini chat
+        geminiFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GeminiChatFragment GeminiChatFragment = new GeminiChatFragment();
+                GeminiChatFragment.show(getSupportFragmentManager(), "GeminiChatFragment");
+            }
+        });
+
         // Handle BottomNavigationView item clicks
         bottomNavigationView.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
@@ -134,9 +153,11 @@ public class MainActivity3 extends AppCompatActivity {
                 getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 findViewById(R.id.main).setVisibility(View.VISIBLE);
                 findViewById(R.id.fragment_container).setVisibility(View.GONE);
+                geminiFab.setVisibility(View.VISIBLE); // Show FAB on home screen
             } else {
                 findViewById(R.id.main).setVisibility(View.GONE);
                 findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
+                geminiFab.setVisibility(View.GONE); // Hide FAB when not on home screen
 
                 Fragment selectedFragment = getSelectedFragment(itemId);
 
@@ -150,6 +171,7 @@ public class MainActivity3 extends AppCompatActivity {
         // Ensure the home screen is visible on startup
         if (savedInstanceState == null) {
             bottomNavigationView.setSelectedItemId(R.id.nav_home);
+            geminiFab.setVisibility(View.VISIBLE); // Show FAB on initial load
         }
 
         // Set up back press handling using OnBackPressedDispatcher
@@ -173,6 +195,7 @@ public class MainActivity3 extends AppCompatActivity {
                         findViewById(R.id.main).setVisibility(View.VISIBLE);
                         findViewById(R.id.fragment_container).setVisibility(View.GONE);
                         bottomNavigationView.setSelectedItemId(R.id.nav_home);
+                        geminiFab.setVisibility(View.VISIBLE); // Show FAB on home screen
                     }
                 } else {
                     // No fragments in the back stack, finish the activity
@@ -202,6 +225,7 @@ public class MainActivity3 extends AppCompatActivity {
     private void openGameDetailsFragment(Game game) {
         findViewById(R.id.main).setVisibility(View.GONE);
         findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
+        geminiFab.setVisibility(View.GONE); // Hide FAB when not on home screen
 
         GameDetailsFragment fragment = GameDetailsFragment.newInstance(game.title, game.imageResId);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();

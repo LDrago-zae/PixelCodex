@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="4dp">
+
+    <!-- Gemini Message (left-aligned) -->
+    <TextView
+        android:id="@+id/geminiMessageText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:background="#2A3B3B"
+        android:padding="8dp"
+        android:layout_marginTop="10dp"
+        android:textColor="#F5E6CA"
+        android:textSize="16sp"
+        android:gravity="start"
+        android:visibility="gone" />
+
+    <!-- Spacer to push user message to the right -->
+    <View
+        android:id="@+id/spacer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- User Message (right-aligned) -->
+    <TextView
+        android:id="@+id/userMessageText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:background="#190359"
+        android:padding="8dp"
+        android:textColor="#FFFFFF"
+        android:textSize="16sp"
+        android:gravity="end"
+        android:visibility="gone" />
+</LinearLayout>

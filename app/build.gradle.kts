@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.google.gms.google.services)
+
 }
 
 android {
@@ -13,6 +14,7 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
+        buildConfigField("String", "API_KEY", "\"${project.findProperty("AIzaSyBLCNJ6LiSOTy8s1FFqxz3YhwEf7qhkrek")}\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -32,6 +34,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 }
 
@@ -53,6 +56,10 @@ dependencies {
     implementation (libs.firebase.auth.v2300)
     implementation("com.squareup.okhttp3:okhttp:4.12.0") // For HTTP requests
     implementation (libs.json)
+    implementation(libs.generativeai)
+    implementation(libs.guava)
+
+
 
     // Testing dependencies
     testImplementation(libs.junit)

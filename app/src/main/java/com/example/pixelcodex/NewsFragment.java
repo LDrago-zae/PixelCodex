@@ -27,9 +27,9 @@ public class NewsFragment extends Fragment {
         RecyclerView newsRecyclerView = view.findViewById(R.id.newsRecyclerView);
 
         // Set up TabLayout
-        tabLayout.addTab(tabLayout.newTab().setText("YOUR NEWS"));
-        tabLayout.addTab(tabLayout.newTab().setText("UPCOMING"));
-        tabLayout.addTab(tabLayout.newTab().setText("FEAT..."));
+        tabLayout.addTab(tabLayout.newTab().setText("NEWS"));
+        tabLayout.addTab(tabLayout.newTab().setText("Upcoming"));
+        tabLayout.addTab(tabLayout.newTab().setText("Featured"));
 
 
 
@@ -103,6 +103,18 @@ public class NewsFragment extends Fragment {
                 true // Event is upcoming since it launches after April 4, 2025
         ));
 
+        newsItems.add(new NewsItem(
+                R.drawable.fh5,
+                "Forza Horizon 5",
+                "Horizon Festival Returns",
+                "The festival is back. The Horizon Festival returns on March 15" +
+                        " with new cars and events. Join"+
+                        " the festival to unlock exclusive vehicles and rewards in this 20-tier Festival Pass.",
+                "Saturday at 3:00 PM",
+                120,
+                30,
+                true // Event is upcoming since it launches after April 4, 2025
+        ));
         // Add more news items as needed
         NewsAdapter adapter = new NewsAdapter(newsItems);
         newsRecyclerView.setAdapter(adapter);

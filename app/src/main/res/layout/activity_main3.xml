@@ -21,117 +21,127 @@
             android:fillViewport="true"
             android:layout_above="@id/bottomNav">
 
-            <LinearLayout
-                android:id="@+id/main"
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="#102020">
+                android:layout_height="wrap_content">
 
-                <!-- Top Bar -->
                 <LinearLayout
-                    android:id="@+id/topBar"
+                    android:id="@+id/main"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:layout_marginEnd="5dp"
-                    android:padding="16dp">
+                    android:orientation="vertical"
+                    android:background="#102020"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                    <ImageButton
-                        android:id="@+id/hamburgerMenuButton"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:contentDescription="@string/hamburger"
-                        android:src="@drawable/baseline_menu_24"
-                        android:background="?android:attr/selectableItemBackground"
-                        android:layout_marginEnd="5dp" />
+                    <!-- Top Bar -->
+                    <LinearLayout
+                        android:id="@+id/topBar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginEnd="5dp"
+                        android:padding="16dp">
 
-                    <ImageView
-                        android:id="@+id/logo"
-                        android:layout_gravity="center"
-                        android:layout_width="280dp"
-                        android:layout_height="50dp"
-                        android:contentDescription="@string/applogo"
-                        android:src="@drawable/applogo" />
+                        <ImageButton
+                            android:id="@+id/hamburgerMenuButton"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginEnd="5dp"
+                            android:background="?android:attr/selectableItemBackground"
+                            android:contentDescription="@string/hamburger"
+                            android:src="@drawable/baseline_menu_24"
+                            tools:ignore="TouchTargetSizeCheck" />
 
-                    <ImageView
-                        android:id="@+id/cartIcon"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_marginEnd="200dp"
-                        app:srcCompat="@drawable/bookmark"
-                        android:contentDescription="@string/cart"
-                        android:layout_marginStart="10dp" />
+                        <ImageView
+                            android:id="@+id/logo"
+                            android:layout_gravity="center"
+                            android:layout_width="280dp"
+                            android:layout_height="50dp"
+                            android:contentDescription="@string/applogo"
+                            android:src="@drawable/applogo" />
+
+                        <ImageView
+                            android:id="@+id/cartIcon"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginEnd="200dp"
+                            app:srcCompat="@drawable/bookmark"
+                            android:contentDescription="@string/cart"
+                            android:layout_marginStart="10dp" />
+                    </LinearLayout>
+
+                    <!-- Featured Games -->
+                    <TextView
+                        android:id="@+id/featuredTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="FEATURED"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp" />
+
+                    <androidx.viewpager2.widget.ViewPager2
+                        android:id="@+id/featuredViewPager"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:clipChildren="false"
+                        android:clipToPadding="false"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:orientation="horizontal"/>
+
+                    <!-- New on Codex -->
+                    <TextView
+                        android:id="@+id/newOnSteamTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/new_on_codex"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/newOnSteamRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:orientation="horizontal"
+                        android:nestedScrollingEnabled="false"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        tools:listitem="@layout/view_pager2" />
+
+                    <!-- Recommended for You -->
+                    <TextView
+                        android:id="@+id/recommendedTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="RECOMMENDED FOR YOU"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recommendedRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        android:orientation="horizontal"
+                        android:nestedScrollingEnabled="false"
+                        android:layout_marginTop="16dp"
+                        tools:listitem="@layout/recommended_layout" />
                 </LinearLayout>
 
-                <!-- Featured Games -->
-                <TextView
-                    android:id="@+id/featuredTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="FEATURED"
-                    android:textColor="#FFFFFF"
-                    android:textSize="16sp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp" />
+                <!-- Floating Action Button for Gemini Chat -->
 
-                <androidx.viewpager2.widget.ViewPager2
-                    android:id="@+id/featuredViewPager"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:clipChildren="false"
-                    android:clipToPadding="false"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
-                    android:orientation="horizontal"/>
-
-                <!-- New on Codex -->
-                <TextView
-                    android:id="@+id/newOnSteamTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/new_on_codex"
-                    android:textColor="#FFFFFF"
-                    android:textSize="16sp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/newOnSteamRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:orientation="horizontal"
-                    android:nestedScrollingEnabled="false"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
-                    tools:listitem="@layout/view_pager2" />
-
-                <!-- Recommended for You -->
-                <TextView
-                    android:id="@+id/recommendedTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="RECOMMENDED FOR YOU"
-                    android:textColor="#FFFFFF"
-                    android:textSize="16sp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recommendedRecyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="16dp"
-                    android:paddingEnd="16dp"
-                    android:orientation="horizontal"
-                    android:nestedScrollingEnabled="false"
-                    android:layout_marginTop="16dp"
-                    tools:listitem="@layout/recommended_layout" />
-            </LinearLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
 
         <!-- Fragment Container -->
@@ -153,6 +163,22 @@
             app:menu="@menu/bottom_nav_menu"
             app:itemIconTint="@color/nav_icon_color"
             app:itemTextColor="@color/nav_text_color"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/geminiFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:contentDescription="FAB"
+            android:src="@drawable/gemini"
+            android:background="@drawable/rounded_button"
+            android:backgroundTint="@null"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:backgroundTint="@null"
+            android:layout_above="@+id/bottomNav"
+            android:layout_alignParentEnd="true"
+            app:fabSize="mini" />
     </RelativeLayout>
 
     <!-- Navigation Drawer using NavigationView -->
