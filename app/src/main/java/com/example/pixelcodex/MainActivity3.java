@@ -1,11 +1,9 @@
 package com.example.pixelcodex;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -85,6 +83,12 @@ public class MainActivity3 extends AppCompatActivity {
                 loadFragment(new SettingsFragment());
             } else if (itemId == R.id.nav_logout) {
                 showLogoutConfirmation();
+            } else if (itemId == R.id.nav_about_us) {
+                findViewById(R.id.main).
+                        setVisibility(View.GONE);
+                findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
+                geminiFab.setVisibility(View.GONE); // Hide FAB when not on home screen
+                loadFragment(new AboutUsFragment());
             }
 
             drawerLayout.closeDrawer(GravityCompat.START);

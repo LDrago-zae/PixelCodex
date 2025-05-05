@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#102020"
+    android:padding="16dp">
+
+    <!-- Header Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingBottom="16dp">
+
+        <ImageView
+            android:id="@+id/backButton"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/arrowback"
+            android:contentDescription="Back" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="About Us"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:gravity="center"
+            android:paddingStart="16dp" />
+
+        <Space
+            android:layout_width="24dp"
+            android:layout_height="24dp" />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="none"
+        android:paddingBottom="80dp"
+        android:clipToPadding="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- App Icon and Version -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="16dp">
+
+                <ImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/applogo"
+                    android:contentDescription="App Icon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PixelCodex"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@android:color/white"
+                    android:paddingTop="8dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Version 1.0.0"
+                    android:textSize="16sp"
+                    android:textColor="@android:color/darker_gray" />
+
+            </LinearLayout>
+
+            <!-- About the App -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="About PixelCodex"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:paddingTop="16dp"
+                android:paddingBottom="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="PixelCodex is your ultimate gaming companion, designed to help you discover, explore, and manage your favorite games. From system requirements to game details, we provide all the information you need to enhance your gaming experience."
+                android:textSize="16sp"
+                android:textColor="@android:color/white"
+                android:lineSpacingExtra="4dp" />
+
+            <!-- Our Mission -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Our Mission"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:paddingTop="16dp"
+                android:paddingBottom="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="We aim to create a seamless platform for gamers to find detailed game information, manage their wishlist, and stay updated with the latest gaming news—all in one place."
+                android:textSize="16sp"
+                android:textColor="@android:color/white"
+                android:lineSpacingExtra="4dp" />
+
+            <!-- Team Section -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Our Team"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:paddingTop="16dp"
+                android:paddingBottom="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="We are a passionate team of developers and gaming enthusiasts dedicated to building tools that make gaming more enjoyable and accessible for everyone."
+                android:textSize="16sp"
+                android:textColor="@android:color/white"
+                android:lineSpacingExtra="4dp" />
+
+            <!-- Contact Us -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Contact Us"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:paddingTop="16dp"
+                android:paddingBottom="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Have questions or feedback? Reach out to us at:\nEmail: support@pixelcodex.com\nWebsite: www.pixelcodex.com"
+                android:textSize="16sp"
+                android:textColor="@android:color/white"
+                android:lineSpacingExtra="4dp" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

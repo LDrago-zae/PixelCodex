@@ -32,11 +32,16 @@ import com.google.android.libraries.identity.googleid.GetGoogleIdOption;
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Executors;
 
 import okhttp3.FormBody;
@@ -50,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
     private EditText emailEditText, passwordEditText;
     private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
     private CredentialManager credentialManager;
     private ProgressBar progressBar;
     private LottieAnimationView lottieProgress;
@@ -64,8 +70,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Initialize Firebase Auth
+        // Initialize Firebase Auth and Firestore
         mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
 
         // Initialize Credential Manager
         credentialManager = CredentialManager.create(this);
@@ -241,6 +248,8 @@ public class MainActivity extends AppCompatActivity {
                                 String userResponseBody = userResponse.body().string();
                                 JSONObject userJson = new JSONObject(userResponseBody);
                                 discordUserId = userJson.getString("id");
+                                String discordName = userJson.getString("username");
+                                String discordAvatar = userJson.has("avatar") ? "https://cdn.discordapp.com/avatars/" + discordUserId + "/" + userJson.getString("avatar") + ".png" : "";
 
                                 // Store the Discord session in SQLite
                                 dbHelper.saveSession(discordAccessToken, discordUserId);
@@ -276,6 +285,12 @@ public class MainActivity extends AppCompatActivity {
                     lottieProgress.setVisibility(View.GONE);
                     lottieProgress.cancelAnimation();
                     if (task.isSuccessful()) {
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        if (user != null) {
+                            String name = user.getDisplayName() != null ? user.getDisplayName() : "Unknown User";
+                            String profilePicture = user.getPhotoUrl() != null ? user.getPhotoUrl().toString() : "";
+                            saveUserDataToFirestore(name, profilePicture);
+                        }
                         Toast.makeText(this, "Google Sign-In Successful!", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(MainActivity.this, MainActivity3.class);
                         startActivity(intent);
@@ -315,6 +330,13 @@ public class MainActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, task -> {
                     progressBar.setVisibility(View.GONE);
                     if (task.isSuccessful()) {
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        if (user != null) {
+                            // Use email as name if display name is not available
+                            String name = user.getDisplayName() != null ? user.getDisplayName() : email;
+                            String profilePicture = user.getPhotoUrl() != null ? user.getPhotoUrl().toString() : "";
+                            saveUserDataToFirestore(name, profilePicture);
+                        }
                         Toast.makeText(this, "Login Successful!", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(MainActivity.this, MainActivity3.class);
                         startActivity(intent);
@@ -324,6 +346,20 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(this, "Login Failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
+    }
+
+    private void saveUserDataToFirestore(String name, String profilePicture) {
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            Map<String, Object> userData = new HashMap<>();
+            userData.put("name", name);
+            userData.put("profilePicture", profilePicture);
+            userData.put("email", user.getEmail());
+            db.collection("users").document(user.getUid())
+                    .set(userData, SetOptions.merge())
+                    .addOnSuccessListener(aVoid -> Log.d(TAG, "User data saved to Firestore"))
+                    .addOnFailureListener(e -> Log.w(TAG, "Error saving user data", e));
+        }
     }
 
     private void clearFocusAndHideKeyboard() {

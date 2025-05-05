@@ -58,7 +58,7 @@ public class GeminiChatFragment extends DialogFragment {
 
         // Initialize Gemini Model
         GenerativeModel generativeModel = new GenerativeModel(
-                "gemini-1.5-flash",
+                "gemini-2.0-flash",
                 getString(R.string.gemini_api_key)
         );
         GenerativeModelFutures generativeModelFutures = GenerativeModelFutures.from(generativeModel);

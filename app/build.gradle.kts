@@ -58,6 +58,8 @@ dependencies {
     implementation (libs.json)
     implementation(libs.generativeai)
     implementation(libs.guava)
+    implementation (libs.firebase.storage)
+    implementation (libs.firebase.firestore)
 
 
 

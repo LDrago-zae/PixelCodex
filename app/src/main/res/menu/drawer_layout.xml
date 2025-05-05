@@ -28,25 +28,25 @@
         android:id="@+id/nav_settings"
         android:icon="@drawable/settings"
         android:iconTintMode="src_in"
-        android:title="@string/settings" />
+        android:title="Settings" />
 
     <item
         android:id="@+id/nav_about_us"
         android:icon="@drawable/aboutus"
         android:iconTintMode="src_in"
-        android:title="@string/about_us" />
+        android:title="About us" />
 
     <item
         android:id="@+id/privacy_policy"
         android:icon="@drawable/privacypolicy"
         android:iconTintMode="src_in"
-        android:title="@string/privacy_policy" />
+        android:title="Privacy Policy" />
 
     <item
         android:id="@+id/contact_support"
         android:icon="@drawable/support"
         android:iconTintMode="src_in"
-        android:title="@string/contact_support" />
+        android:title="Support" />
 
 
     <item
