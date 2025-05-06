@@ -1,4 +1,5 @@
-<LinearLayout android:id="@+id/main"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:id="@+id/adminLoginLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,7 +10,7 @@
     android:clickable="true"
     android:focusableInTouchMode="true"
     android:padding="20dp"
-    tools:context=".MainActivity"
+    tools:context=".AdminLoginActivity"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!-- App Logo -->
@@ -26,7 +27,7 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/sign_in_to_your_account"
+        android:text="Admin Login"
         android:textColor="#c7d5e0"
         android:textSize="20sp"
         android:layout_marginBottom="24dp"
@@ -108,44 +109,6 @@
         android:textStyle="bold"
         android:layout_marginBottom="20dp" />
 
-    <!-- Divider Text -->
-    <TextView
-        android:id="@+id/dividerText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/or_sign_in_with"
-        android:textColor="#c7d5e0"
-        android:layout_marginBottom="16dp" />
-
-    <!-- Google and Steam Login Buttons -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:layout_marginBottom="24dp">
-
-        <ImageButton
-            android:id="@+id/googleIcon"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginEnd="16dp"
-            android:src="@drawable/google"
-            android:contentDescription="@string/google_login"
-            android:background="@android:color/transparent"
-            android:padding="0dp"
-            android:scaleType="centerInside" />
-
-        <ImageButton
-            android:id="@+id/steamIcon"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/discord"
-            android:contentDescription="@string/steam_login"
-            android:background="@android:color/transparent"
-            android:padding="0dp"
-            android:scaleType="centerInside" />
-    </LinearLayout>
 
     <!-- Divider -->
     <View
@@ -154,31 +117,16 @@
         android:background="#9CAAB4"
         android:layout_marginBottom="30dp" />
 
-    <!-- Sign-Up Text -->
+    <!-- Sign In as User Button -->
     <Button
-        android:id="@+id/signUpText"
+        android:id="@+id/BackToUserButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/don_t_have_an_account_sign_up"
+        android:text="Back to User Login"
         android:textColor="#F5E6CA"
         android:background="@android:color/transparent"/>
 
-    <!-- Sign In as Admin Button -->
-    <Button
-        android:id="@+id/signInAsAdminButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Sign in as Admin"
-        android:textColor="#F5E6CA"
-        android:background="@android:color/transparent"/>
-
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:id="@+id/progressBar"/>
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/loaderAnimation"
@@ -188,7 +136,4 @@
         app:lottie_loop="true"
         android:visibility="gone"
         app:lottie_autoPlay="false" />
-    <!-- Optional: you can adjust text size as needed -->
-
-
 </LinearLayout>

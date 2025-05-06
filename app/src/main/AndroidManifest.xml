@@ -37,11 +37,22 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="pixelcodex" android:host="callback" />
+
+                <data
+                    android:host="callback"
+                    android:scheme="pixelcodex" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".AdminLoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DashboardActivity"
+            android:exported="false" />
+
 
         <meta-data
             android:name="firebase_analytics_collection_enabled"

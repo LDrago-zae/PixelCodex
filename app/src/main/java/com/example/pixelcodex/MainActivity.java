@@ -63,6 +63,9 @@ public class MainActivity extends AppCompatActivity {
     private SessionDatabaseHelper dbHelper;
     private String discordAccessToken;
     private String discordUserId;
+    private Button signInButton, signUpButton, signInAsAdminButton;
+    private ImageButton googleSignInButton, discordSignInButton;
+    private LinearLayout rootLayout;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -86,13 +89,14 @@ public class MainActivity extends AppCompatActivity {
         // Find views
         emailEditText = findViewById(R.id.emailField);
         passwordEditText = findViewById(R.id.passwordField);
-        Button signInButton = findViewById(R.id.signInButton);
-        Button signUpButton = findViewById(R.id.signUpText);
-        ImageButton googleSignInButton = findViewById(R.id.googleIcon);
-        ImageButton discordSignInButton = findViewById(R.id.steamIcon); // Renamed to discordSignInButton
+        signInButton = findViewById(R.id.signInButton);
+        signUpButton = findViewById(R.id.signUpText);
+        signInAsAdminButton = findViewById(R.id.signInAsAdminButton);
+        googleSignInButton = findViewById(R.id.googleIcon);
+        discordSignInButton = findViewById(R.id.steamIcon);
         progressBar = findViewById(R.id.progressBar);
         lottieProgress = findViewById(R.id.loaderAnimation);
-        LinearLayout rootLayout = findViewById(R.id.main);
+        rootLayout = findViewById(R.id.main);
 
         rootLayout.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN) clearFocusAndHideKeyboard();
@@ -110,65 +114,87 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         // Google Sign-In Button Listener
-        googleSignInButton.setOnClickListener(v -> {
-            CancellationSignal cancellationSignal = new CancellationSignal();
-            credentialManager.getCredentialAsync(
-                    this,
-                    googleSignInRequest,
-                    cancellationSignal,
-                    Executors.newSingleThreadExecutor(),
-                    new CredentialManagerCallback<GetCredentialResponse, GetCredentialException>() {
-                        @Override
-                        public void onResult(GetCredentialResponse response) {
-                            runOnUiThread(() -> {
-                                lottieProgress.setVisibility(View.VISIBLE);
-                                lottieProgress.playAnimation();
-                                try {
-                                    Credential credential = response.getCredential();
-                                    GoogleIdTokenCredential googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.getData());
-                                    firebaseAuthWithGoogle(googleIdTokenCredential);
-                                } catch (Exception e) {
-                                    lottieProgress.setVisibility(View.GONE);
-                                    lottieProgress.cancelAnimation();
+        if (googleSignInButton != null) {
+            googleSignInButton.setOnClickListener(v -> {
+                CancellationSignal cancellationSignal = new CancellationSignal();
+                credentialManager.getCredentialAsync(
+                        this,
+                        googleSignInRequest,
+                        cancellationSignal,
+                        Executors.newSingleThreadExecutor(),
+                        new CredentialManagerCallback<GetCredentialResponse, GetCredentialException>() {
+                            @Override
+                            public void onResult(GetCredentialResponse response) {
+                                runOnUiThread(() -> {
+                                    if (lottieProgress != null) {
+                                        lottieProgress.setVisibility(View.VISIBLE);
+                                        lottieProgress.playAnimation();
+                                    }
+                                    try {
+                                        Credential credential = response.getCredential();
+                                        GoogleIdTokenCredential googleIdTokenCredential = GoogleIdTokenCredential.createFrom(credential.getData());
+                                        firebaseAuthWithGoogle(googleIdTokenCredential);
+                                    } catch (Exception e) {
+                                        if (lottieProgress != null) {
+                                            lottieProgress.setVisibility(View.GONE);
+                                            lottieProgress.cancelAnimation();
+                                        }
+                                        Log.e(TAG, "Google Sign-In error", e);
+                                        Toast.makeText(MainActivity.this, "Google Sign-In failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onError(@NonNull GetCredentialException e) {
+                                runOnUiThread(() -> {
+                                    if (lottieProgress != null) {
+                                        lottieProgress.setVisibility(View.GONE);
+                                        lottieProgress.cancelAnimation();
+                                    }
                                     Log.e(TAG, "Google Sign-In error", e);
                                     Toast.makeText(MainActivity.this, "Google Sign-In failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                }
-                            });
+                                });
+                            }
                         }
-
-                        @Override
-                        public void onError(@NonNull GetCredentialException e) {
-                            runOnUiThread(() -> {
-                                lottieProgress.setVisibility(View.GONE);
-                                lottieProgress.cancelAnimation();
-                                Log.e(TAG, "Google Sign-In error", e);
-                                Toast.makeText(MainActivity.this, "Google Sign-In failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                            });
-                        }
-                    }
-            );
-        });
+                );
+            });
+        }
 
         // Discord Sign-In Button Listener
-        discordSignInButton.setOnClickListener(v -> {
-            String discordAuthUrl = "https://discord.com/api/oauth2/authorize" +
-                    "?client_id=" + getString(R.string.discord_client_id) +
-                    "&redirect_uri=" + Uri.encode("pixelcodex://callback") +
-                    "&response_type=code" +
-                    "&scope=identify%20email";
+        if (discordSignInButton != null) {
+            discordSignInButton.setOnClickListener(v -> {
+                String discordAuthUrl = "https://discord.com/api/oauth2/authorize" +
+                        "?client_id=" + getString(R.string.discord_client_id) +
+                        "&redirect_uri=" + Uri.encode("pixelcodex://callback") +
+                        "&response_type=code" +
+                        "&scope=identify%20email";
 
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(discordAuthUrl));
-            startActivity(intent);
-        });
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(discordAuthUrl));
+                startActivity(intent);
+            });
+        }
 
         // Sign In Button Listener (Email/Password)
-        signInButton.setOnClickListener(v -> loginUser());
+        if (signInButton != null) {
+            signInButton.setOnClickListener(v -> loginUser());
+        }
 
         // Sign Up Button Listener
-        signUpButton.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, MainActivity2.class);
-            startActivity(intent);
-        });
+        if (signUpButton != null) {
+            signUpButton.setOnClickListener(v -> {
+                Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+                startActivity(intent);
+            });
+        }
+
+        // Sign In as Admin Button Listener
+        if (signInAsAdminButton != null) {
+            signInAsAdminButton.setOnClickListener(v -> {
+                Intent intent = new Intent(MainActivity.this, AdminLoginActivity.class);
+                startActivity(intent);
+            });
+        }
     }
 
     @Override
@@ -212,8 +238,10 @@ public class MainActivity extends AppCompatActivity {
         if (uri != null && uri.toString().startsWith("pixelcodex://callback")) {
             String code = uri.getQueryParameter("code");
             if (code != null) {
-                lottieProgress.setVisibility(View.VISIBLE);
-                lottieProgress.playAnimation();
+                if (lottieProgress != null) {
+                    lottieProgress.setVisibility(View.VISIBLE);
+                    lottieProgress.playAnimation();
+                }
                 new Thread(() -> {
                     try {
                         // Exchange the code for an access token
@@ -255,8 +283,10 @@ public class MainActivity extends AppCompatActivity {
                                 dbHelper.saveSession(discordAccessToken, discordUserId);
 
                                 runOnUiThread(() -> {
-                                    lottieProgress.setVisibility(View.GONE);
-                                    lottieProgress.cancelAnimation();
+                                    if (lottieProgress != null) {
+                                        lottieProgress.setVisibility(View.GONE);
+                                        lottieProgress.cancelAnimation();
+                                    }
                                     Toast.makeText(this, "Discord Sign-In Successful!", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(MainActivity.this, MainActivity3.class);
                                     startActivity(intent);
@@ -266,8 +296,10 @@ public class MainActivity extends AppCompatActivity {
                         }
                     } catch (Exception e) {
                         runOnUiThread(() -> {
-                            lottieProgress.setVisibility(View.GONE);
-                            lottieProgress.cancelAnimation();
+                            if (lottieProgress != null) {
+                                lottieProgress.setVisibility(View.GONE);
+                                lottieProgress.cancelAnimation();
+                            }
                             Toast.makeText(this, "Discord Sign-In Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         });
                     }
@@ -282,8 +314,10 @@ public class MainActivity extends AppCompatActivity {
         AuthCredential authCredential = GoogleAuthProvider.getCredential(credential.getIdToken(), null);
         mAuth.signInWithCredential(authCredential)
                 .addOnCompleteListener(this, task -> {
-                    lottieProgress.setVisibility(View.GONE);
-                    lottieProgress.cancelAnimation();
+                    if (lottieProgress != null) {
+                        lottieProgress.setVisibility(View.GONE);
+                        lottieProgress.cancelAnimation();
+                    }
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
                         if (user != null) {
@@ -303,32 +337,42 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loginUser() {
-        String email = emailEditText.getText().toString().trim();
-        String password = passwordEditText.getText().toString().trim();
+        String email = emailEditText != null ? emailEditText.getText().toString().trim() : "";
+        String password = passwordEditText != null ? passwordEditText.getText().toString().trim() : "";
 
         if (TextUtils.isEmpty(email)) {
-            emailEditText.setError("Email is required");
-            emailEditText.requestFocus();
+            if (emailEditText != null) {
+                emailEditText.setError("Email is required");
+                emailEditText.requestFocus();
+            }
             return;
         }
 
         if (TextUtils.isEmpty(password)) {
-            passwordEditText.setError("Password is required");
-            passwordEditText.requestFocus();
+            if (passwordEditText != null) {
+                passwordEditText.setError("Password is required");
+                passwordEditText.requestFocus();
+            }
             return;
         }
 
         if (password.length() < 6) {
-            passwordEditText.setError("Password must be at least 6 characters");
-            passwordEditText.requestFocus();
+            if (passwordEditText != null) {
+                passwordEditText.setError("Password must be at least 6 characters");
+                passwordEditText.requestFocus();
+            }
             return;
         }
 
-        progressBar.setVisibility(View.VISIBLE);
+        if (progressBar != null) {
+            progressBar.setVisibility(View.VISIBLE);
+        }
 
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {
-                    progressBar.setVisibility(View.GONE);
+                    if (progressBar != null) {
+                        progressBar.setVisibility(View.GONE);
+                    }
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
                         if (user != null) {
@@ -363,8 +407,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void clearFocusAndHideKeyboard() {
-        emailEditText.clearFocus();
-        passwordEditText.clearFocus();
+        if (emailEditText != null) emailEditText.clearFocus();
+        if (passwordEditText != null) passwordEditText.clearFocus();
 
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         View currentFocus = getCurrentFocus();
