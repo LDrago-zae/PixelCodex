@@ -13,12 +13,23 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
-    private Context context;
-    private List<String> categories;
+    private final Context context;
+    private final List<String> categories;
+    private OnCategoryClickListener onCategoryClickListener;
+
+    // Interface for click events
+    public interface OnCategoryClickListener {
+        void onCategoryClick(int position, String categoryName);
+    }
 
     public CategoryAdapter(Context context, List<String> categories) {
         this.context = context;
         this.categories = categories;
+    }
+
+    // Setter for click listener
+    public void setOnCategoryClickListener(OnCategoryClickListener listener) {
+        this.onCategoryClickListener = listener;
     }
 
     @NonNull
@@ -45,7 +56,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         int imageResource = getCategoryImage(categoryName);
         holder.categoryImage.setImageResource(imageResource);
 
-
+        // Set click listener for the item
+        holder.itemView.setOnClickListener(v -> {
+            if (onCategoryClickListener != null) {
+                onCategoryClickListener.onCategoryClick(position, categoryName);
+            }
+        });
     }
 
     @Override
@@ -67,22 +83,24 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     // Helper method to return images based on category
     private int getCategoryImage(String category) {
         category = category.toLowerCase();
-        if (category.equals("adventure")) {
-            return R.drawable.goy;
-        } else if (category.equals("action")) {
-            return R.drawable.nightreign2;
-        } else if (category.equals("casual")) {
-            return R.drawable.ffvii;
-        } else if (category.equals("first person shooter")) {
-            return R.drawable.battlefield;
-        } else if (category.equals("single player")) {
-            return R.drawable.god3;
-        } else if (category.equals("multiplayer")) {
-            return R.drawable.mr;
-        } else if (category.equals("indie")) {
-            return R.drawable.pop;
-        } else {
-            return R.drawable.nightreign; // Default fallback image
+        switch (category) {
+            case "adventure":
+                return R.drawable.goy;
+            case "action":
+                return R.drawable.nightreign2;
+            case "casual":
+                return R.drawable.ffvii;
+            case "first person shooter":
+                return R.drawable.battlefield;
+            case "single player":
+                return R.drawable.god3;
+            case "multiplayer":
+                return R.drawable.mr;
+            case "indie":
+                return R.drawable.pop;
+            default:
+                return R.drawable.nightreign; // Default fallback image
+
         }
     }
 }

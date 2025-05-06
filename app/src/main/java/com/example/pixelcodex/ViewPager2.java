@@ -29,5 +29,11 @@ public class ViewPager2 extends AppCompatActivity {
         gameImage.setImageResource(R.drawable.eldenring);
         gameImage.setImageResource(R.drawable.cyberpunk);
         gameImage.setImageResource(R.drawable.ghost);
+        gameImage.setImageResource(R.drawable.pb0);
+        gameImage.setImageResource(R.drawable.goy);
+        gameImage.setImageResource(R.drawable.gta6);
+        gameImage.setImageResource(R.drawable.ffvii);
+        gameImage.setImageResource(R.drawable.tides);
+        gameImage.setImageResource(R.drawable.onimusha);
     }
 }

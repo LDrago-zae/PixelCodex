@@ -1,4 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/gameDetailsContainer"
@@ -20,11 +22,12 @@
             android:layout_height="20dp"
             android:layout_alignParentStart="true"
             android:layout_marginTop="16dp"
+            android:clickable="true"
             android:contentDescription="Back"
+            android:focusable="true"
             android:src="@drawable/arrowback"
             app:tint="#FFFFFF"
-            android:clickable="true"
-            android:focusable="true"/>
+            tools:ignore="TouchTargetSizeCheck" />
 
         <!-- Game Image -->
         <androidx.cardview.widget.CardView
@@ -63,12 +66,13 @@
             android:layout_alignParentEnd="true"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="4dp"
+            android:background="?selectableItemBackgroundBorderless"
             android:clickable="true"
-            android:focusable="true"
             android:contentDescription="Bookmark"
+            android:focusable="true"
             android:padding="8dp"
             android:src="@drawable/favorite2"
-            android:background="?selectableItemBackgroundBorderless" />
+            tools:ignore="TouchTargetSizeCheck" />
 
         <!-- Game Description Card -->
         <androidx.cardview.widget.CardView
@@ -208,6 +212,130 @@
                     android:textColor="#CCCCCC"
                     android:textSize="14sp"
                     android:text="• OS: Windows 11\n• RAM: 16 GB\n• CPU: Intel i7\n• GPU: RTX 2060" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Trailer Section -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/trailerCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/recommendedRequirementsCard"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="#1A1A1A">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <LinearLayout
+                    android:id="@+id/trailerHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@android:drawable/ic_media_play"
+                        app:tint="#FFFFFF" />
+
+                    <TextView
+                        android:id="@+id/trailerToggle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Official Trailer"
+                        android:textColor="#FFFFFF"
+                        android:paddingStart="8dp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/trailerArrow"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/expand"
+                        app:tint="#FFFFFF" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/trailerUrl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:paddingTop="8dp"
+                    android:textColor="@android:color/holo_blue_light"
+                    android:textSize="14sp"
+                    android:text="Watch Trailer"
+                    android:clickable="true"
+                    android:focusable="true" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Gameplay Section -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/gameplayCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/trailerCard"
+            android:layout_marginTop="16dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="2dp"
+            app:cardBackgroundColor="#1A1A1A">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <LinearLayout
+                    android:id="@+id/gameplayHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@android:drawable/ic_media_play"
+                        app:tint="#FFFFFF" />
+
+                    <TextView
+                        android:id="@+id/gameplayToggle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Gameplay Footage"
+                        android:textColor="#FFFFFF"
+                        android:paddingStart="8dp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/gameplayArrow"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/expand"
+                        app:tint="#FFFFFF" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/gameplayUrl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:paddingTop="8dp"
+                    android:textColor="@android:color/holo_blue_light"
+                    android:textSize="14sp"
+                    android:text="Watch Gameplay"
+                    android:clickable="true"
+                    android:focusable="true" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 

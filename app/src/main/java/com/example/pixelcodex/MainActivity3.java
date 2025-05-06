@@ -89,6 +89,11 @@ public class MainActivity3 extends AppCompatActivity {
                 findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
                 geminiFab.setVisibility(View.GONE); // Hide FAB when not on home screen
                 loadFragment(new AboutUsFragment());
+            } else if (itemId == R.id.contact_support) {
+                findViewById(R.id.main).setVisibility(View.GONE);
+                findViewById(R.id.fragment_container).setVisibility(View.VISIBLE);
+                geminiFab.setVisibility(View.GONE); // Hide FAB when not on home screen
+                loadFragment(new SupportFragment());
             }
 
             drawerLayout.closeDrawer(GravityCompat.START);
@@ -103,6 +108,14 @@ public class MainActivity3 extends AppCompatActivity {
         gameList.add(new Game("Elden Ring", R.drawable.eldenring));
         gameList.add(new Game("Cyberpunk 2077", R.drawable.cyberpunk));
         gameList.add(new Game("Call of Duty", R.drawable.ghost));
+        gameList.add(new Game("Grand Theft Auto VI", R.drawable.gta6));
+        gameList.add(new Game("Final Fantasy VII", R.drawable.ffvii));
+        gameList.add(new Game("Tides of Annihilation", R.drawable.tides));
+        gameList.add(new Game("Onimusha", R.drawable.onimusha));
+        gameList.add(new Game("Ghost of Yotie", R.drawable.goy));
+        gameList.add(new Game("Phantom Blade Zero", R.drawable.pb0));
+
+
 
         // Set up adapter for featured games with click listener
         FeaturedAdapter adapter = new FeaturedAdapter(gameList, this::openGameDetailsFragment);
@@ -116,6 +129,8 @@ public class MainActivity3 extends AppCompatActivity {
         newCodexGames.add(new CodexGame("Hades", "Roguelike action game", "$24.99", R.drawable.hades));
         newCodexGames.add(new CodexGame("Days Gone", "Open-world adventure", "$59.99", R.drawable.daysgone));
         newCodexGames.add(new CodexGame("Witcher 3", "Fantasy RPG", "$59.99", R.drawable.witcher3));
+        newCodexGames.add(new CodexGame("Cyberpunk 2077", "Open-world RPG", "$29.99", R.drawable.cyberpunk));
+        newCodexGames.add(new CodexGame("Ghost of Yotie", "Action-adventure game", "$49.99", R.drawable.goy));
 
         // Set horizontal layout for "New on Codex" RecyclerView
         newOnCodexRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -132,6 +147,8 @@ public class MainActivity3 extends AppCompatActivity {
         recommendedGames.add(new CodexGame("Red Dead Redemption 2", "Open world western", "$39.99", R.drawable.rdr2));
         recommendedGames.add(new CodexGame("Horizon Zero Dawn", "Action RPG", "$29.99", R.drawable.horizon));
         recommendedGames.add(new CodexGame("God of War", "Action adventure", "$49.99", R.drawable.god2));
+        recommendedGames.add(new CodexGame("Phantom Blade Zero", "Action-adventure", "$39.99", R.drawable.pb0));
+        recommendedGames.add(new CodexGame("Final Fantasy VII", "RPG", "$59.99", R.drawable.ffvii));
 
         // Set horizontal layout manager for "Recommended" RecyclerView
         recommendedRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
