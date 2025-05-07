@@ -60,7 +60,7 @@ dependencies {
     implementation(libs.guava)
     implementation (libs.firebase.storage)
     implementation (libs.firebase.firestore)
-
+    implementation(libs.swiperefreshlayout)
 
 
     // Testing dependencies

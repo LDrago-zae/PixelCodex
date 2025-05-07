@@ -178,6 +178,7 @@
             app:backgroundTint="@null"
             android:layout_above="@+id/bottomNav"
             android:layout_alignParentEnd="true"
+            android:layout_marginEnd="20dp"
             app:fabSize="mini" />
     </RelativeLayout>
 

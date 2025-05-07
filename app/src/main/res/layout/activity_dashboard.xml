@@ -5,12 +5,15 @@
     android:layout_height="match_parent"
     android:background="#102020">
 
+    <!-- Stats Content -->
     <ScrollView
+        android:id="@+id/admin_dashboard"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/admin_bottom_nav"
         android:scrollbars="none"
-        android:fillViewport="true">
+        android:fillViewport="true"
+        android:visibility="visible">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -209,6 +212,14 @@
 
         </LinearLayout>
     </ScrollView>
+
+    <!-- Fragment Container for Requests and Announcements -->
+    <FrameLayout
+        android:id="@+id/admin_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/admin_bottom_nav"
+        android:visibility="gone" />
 
     <!-- Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView

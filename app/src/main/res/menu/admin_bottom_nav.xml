@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/nav_stats"
+        android:id="@+id/nav_dashboard"
         android:icon="@drawable/stats"
-        android:title="Stats" />
+        android:title="Dashboard" />
     <item
-        android:id="@+id/nav_add_game"
+        android:id="@+id/announcements"
         android:icon="@drawable/add3"
         android:title="Announcements" />
     <item

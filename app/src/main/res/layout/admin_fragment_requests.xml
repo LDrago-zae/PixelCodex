@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#102020">
+
+<!-- Scrollable layout to allow for scrolling -->
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Game Requests"
+        android:layout_gravity="center"
+        android:textSize="20sp"
+        android:textColor="#B0BEC5"
+        android:textStyle="bold"
+        android:layout_marginBottom="8dp"
+        android:padding="6dp" />
+
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/adminRequestsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginBottom="8dp"
+        android:text="Support Queries"
+        android:textColor="#B0BEC5"
+        android:textSize="20sp"
+        android:padding="6dp"
+        android:textStyle="bold" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/supportQueriesRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+</LinearLayout>

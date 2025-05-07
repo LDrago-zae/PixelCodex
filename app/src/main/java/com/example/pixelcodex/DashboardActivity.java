@@ -2,11 +2,19 @@ package com.example.pixelcodex;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,6 +33,10 @@ public class DashboardActivity extends AppCompatActivity {
 
     private FirebaseFirestore firestore;
     private DatabaseReference gamesRef, requestsRef;
+    private View admin_dashboard;
+    private View admin_fragment_container;
+    private BottomNavigationView admin_bottom_nav;
+    private FloatingActionButton fab_add_game;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +49,10 @@ public class DashboardActivity extends AppCompatActivity {
         requestsCountTextView = findViewById(R.id.revenueAmount);
         RecyclerView latestGamesRecyclerView = findViewById(R.id.latestGamesRecyclerView);
         RecyclerView recentUsersRecyclerView = findViewById(R.id.recentUsersRecyclerView);
+        admin_dashboard = findViewById(R.id.admin_dashboard);
+        admin_fragment_container = findViewById(R.id.admin_fragment_container);
+        admin_bottom_nav = findViewById(R.id.admin_bottom_nav);
+        fab_add_game = findViewById(R.id.fab_add_game);
 
         // Set layout managers for RecyclerViews
         latestGamesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -54,12 +70,85 @@ public class DashboardActivity extends AppCompatActivity {
         latestGamesRecyclerView.setAdapter(gameAdapter);
         recentUsersRecyclerView.setAdapter(userAdapter);
 
+        // Handle BottomNavigationView item clicks
+        admin_bottom_nav.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.nav_dashboard) {
+                getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                admin_dashboard.setVisibility(View.VISIBLE);
+                admin_fragment_container.setVisibility(View.GONE);
+                fab_add_game.setVisibility(View.VISIBLE);
+            } else {
+                admin_dashboard.setVisibility(View.GONE);
+                admin_fragment_container.setVisibility(View.VISIBLE);
+                fab_add_game.setVisibility(View.GONE);
+
+                Fragment selectedFragment = getSelectedFragment(itemId);
+                if (selectedFragment != null) {
+                    loadFragment(selectedFragment);
+                } else {
+                    Log.e("DashboardActivity", "Selected fragment is null for itemId: " + itemId);
+                }
+            }
+            return true;
+        });
+
         // Fetch data
         fetchGamesCount();
         fetchUsersCount();
         fetchRequestsCount();
         fetchLatestGames();
         fetchRecentUsers();
+
+        // Ensure the admin_dashboard screen is visible on startup
+        if (savedInstanceState == null) {
+            admin_bottom_nav.setSelectedItemId(R.id.nav_dashboard);
+            admin_dashboard.setVisibility(View.VISIBLE);
+            admin_fragment_container.setVisibility(View.GONE);
+            fab_add_game.setVisibility(View.VISIBLE);
+        }
+
+        // Set up back press handling
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                int backStackCount = getSupportFragmentManager().getBackStackEntryCount();
+                if (backStackCount > 0) {
+                    getSupportFragmentManager().popBackStack();
+                    if (backStackCount == 1) {
+                        admin_dashboard.setVisibility(View.VISIBLE);
+                        admin_fragment_container.setVisibility(View.GONE);
+                        admin_bottom_nav.setSelectedItemId(R.id.nav_dashboard);
+                        fab_add_game.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    finish();
+                }
+            }
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
+    }
+
+    @Nullable
+    private Fragment getSelectedFragment(int itemId) {
+        Fragment selectedFragment = null;
+        if (itemId == R.id.nav_requests) {
+            selectedFragment = new AdminRequestsFragment();
+        } else if (itemId == R.id.announcements) {
+            selectedFragment = new FragmentAnnouncement();
+        }
+        return selectedFragment;
+    }
+
+    private void loadFragment(Fragment fragment) {
+        try {
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.admin_fragment_container, fragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        } catch (Exception e) {
+            Log.e("DashboardActivity", "Fragment transaction failed: " + e.getMessage());
+        }
     }
 
     private void fetchGamesCount() {

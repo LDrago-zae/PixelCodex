@@ -1,18 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/nav_shop_history"
-        android:icon="@drawable/shop2"
-        android:iconTintMode="src_in"
-        android:title="@string/shop_history" />
-
-    <item
-        android:id="@+id/nav_contact_detail"
-        android:icon="@drawable/recent2"
-        android:iconTintMode="src_in"
-        android:title="@string/recent_activity" />
-
-    <item
         android:id="@+id/nav_wishlist"
         android:icon="@drawable/favorite2"
         android:iconTintMode="src_in"
@@ -37,17 +25,10 @@
         android:title="About us" />
 
     <item
-        android:id="@+id/privacy_policy"
-        android:icon="@drawable/privacypolicy"
-        android:iconTintMode="src_in"
-        android:title="Privacy Policy" />
-
-    <item
         android:id="@+id/contact_support"
         android:icon="@drawable/support"
         android:iconTintMode="src_in"
         android:title="Support" />
-
 
     <item
         android:id="@+id/nav_logout"
