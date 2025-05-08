@@ -61,6 +61,8 @@ dependencies {
     implementation (libs.firebase.storage)
     implementation (libs.firebase.firestore)
     implementation(libs.swiperefreshlayout)
+    implementation (libs.retrofit2.retrofit)
+    implementation (libs.converter.gson)
 
 
     // Testing dependencies

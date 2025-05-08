@@ -1,7 +1,7 @@
 package com.example.pixelcodex;
 
 public class NewsItem {
-    private final int imageResId;
+    private final String imageUrl; // Changed to String for URL
     private final String title;
     private final String subtitle;
     private final String description;
@@ -10,8 +10,8 @@ public class NewsItem {
     private final int commentCount;
     private final boolean isComingSoon;
 
-    public NewsItem(int imageResId, String title, String subtitle, String description, String timestamp, int likeCount, int commentCount, boolean isComingSoon) {
-        this.imageResId = imageResId;
+    public NewsItem(String imageUrl, String title, String subtitle, String description, String timestamp, int likeCount, int commentCount, boolean isComingSoon) {
+        this.imageUrl = imageUrl;
         this.title = title;
         this.subtitle = subtitle;
         this.description = description;
@@ -21,8 +21,8 @@ public class NewsItem {
         this.isComingSoon = isComingSoon;
     }
 
-    public int getImageResId() {
-        return imageResId;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
     public String getTitle() {

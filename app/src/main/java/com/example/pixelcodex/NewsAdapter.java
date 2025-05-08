@@ -10,12 +10,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import com.bumptech.glide.Glide;
 import java.util.List;
 
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder> {
 
     private final List<NewsItem> newsItems;
-    private Context context; // Add context field
+    private Context context;
 
     public NewsAdapter(List<NewsItem> newsItems) {
         this.newsItems = newsItems;
@@ -24,7 +25,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     @NonNull
     @Override
     public NewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        this.context = parent.getContext(); // Store the context
+        this.context = parent.getContext();
         View view = LayoutInflater.from(context).inflate(R.layout.item_news, parent, false);
         return new NewsViewHolder(view);
     }
@@ -32,7 +33,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
     @Override
     public void onBindViewHolder(@NonNull NewsViewHolder holder, int position) {
         NewsItem newsItem = newsItems.get(position);
-        holder.newsImage.setImageResource(newsItem.getImageResId());
+        // Use Glide to load the image URL
+        Glide.with(context)
+                .load(newsItem.getImageUrl())
+                .placeholder(R.drawable.pb0) // Fallback image while loading or if URL is invalid
+                .into(holder.newsImage);
         holder.newsTitle.setText(newsItem.getTitle());
         holder.newsSubtitle.setText(newsItem.getSubtitle());
         holder.newsDescription.setText(newsItem.getDescription());
@@ -41,11 +46,10 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsViewHolder
         holder.commentCount.setText(String.valueOf(newsItem.getCommentCount()));
         holder.comingSoonLabel.setVisibility(newsItem.isComingSoon() ? View.VISIBLE : View.GONE);
 
-        // Apply the slide-in animation with a staggered delay
         int adapterPosition = holder.getAdapterPosition();
         if (adapterPosition != RecyclerView.NO_POSITION) {
             Animation animation = AnimationUtils.loadAnimation(context, R.anim.slide_in);
-            animation.setStartOffset(adapterPosition * 150L); // Delay for sequential effect
+            animation.setStartOffset(adapterPosition * 150L);
             holder.itemView.startAnimation(animation);
         }
     }
