@@ -60,7 +60,7 @@
             android:hint="@string/email"
             android:inputType="textEmailAddress"
             android:paddingStart="8dp"
-            android:textColor="#D1D9E6"
+            android:textColor="@color/black"
             android:textColorHint="#1B2838"
             tools:ignore="RtlSymmetry,TouchTargetSizeCheck" />
     </LinearLayout>
@@ -89,7 +89,7 @@
             android:background="@android:color/transparent"
             android:hint="@string/password"
             android:inputType="textPassword"
-            android:textColor="#D1D9E6"
+            android:textColor="@color/black"
             android:textColorHint="#1B2838"
             tools:ignore="TouchTargetSizeCheck" />
     </LinearLayout>
@@ -121,7 +121,7 @@
             android:autofillHints="password"
             android:inputType="textPassword"
             android:paddingStart="8dp"
-            android:textColor="#D1D9E6"
+            android:textColor="@color/black"
             android:textColorHint="#1B2838"
             tools:ignore="RtlSymmetry,TouchTargetSizeCheck" />
     </LinearLayout>

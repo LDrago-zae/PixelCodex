@@ -14,10 +14,16 @@ public class ProfileOptionAdapter extends RecyclerView.Adapter<ProfileOptionAdap
 
     private final List<ProfileOption> options;
     private final Context context;
+    private final OnItemClickListener listener;
 
-    public ProfileOptionAdapter(Context context, List<ProfileOption> options) {
+    public interface OnItemClickListener {
+        void onItemClick(int position);
+    }
+
+    public ProfileOptionAdapter(Context context, List<ProfileOption> options, OnItemClickListener listener) {
         this.context = context;
         this.options = options;
+        this.listener = listener;
     }
 
     @NonNull
@@ -32,6 +38,11 @@ public class ProfileOptionAdapter extends RecyclerView.Adapter<ProfileOptionAdap
         ProfileOption item = options.get(position);
         holder.icon.setImageResource(item.getIcon());
         holder.title.setText(item.getTitle());
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onItemClick(position);
+            }
+        });
     }
 
     @Override

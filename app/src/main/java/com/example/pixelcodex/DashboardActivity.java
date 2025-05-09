@@ -1,13 +1,18 @@
 package com.example.pixelcodex;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -15,6 +20,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,7 +31,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DashboardActivity extends AppCompatActivity {
+public class DashboardActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private TextView gamesCountTextView, usersCountTextView, requestsCountTextView;
     private DashboardAdapter.GameAdapter gameAdapter;
     private DashboardAdapter.UserAdapter userAdapter;
@@ -37,6 +44,7 @@ public class DashboardActivity extends AppCompatActivity {
     private View admin_fragment_container;
     private BottomNavigationView admin_bottom_nav;
     private FloatingActionButton fab_add_game;
+    private DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +61,8 @@ public class DashboardActivity extends AppCompatActivity {
         admin_fragment_container = findViewById(R.id.admin_fragment_container);
         admin_bottom_nav = findViewById(R.id.admin_bottom_nav);
         fab_add_game = findViewById(R.id.fab_add_game);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        NavigationView navigationView = findViewById(R.id.admin_nav_view);
 
         // Set layout managers for RecyclerViews
         latestGamesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -69,6 +79,18 @@ public class DashboardActivity extends AppCompatActivity {
         userAdapter = new DashboardAdapter.UserAdapter(userList);
         latestGamesRecyclerView.setAdapter(gameAdapter);
         recentUsersRecyclerView.setAdapter(userAdapter);
+
+        // Set navigation item selected listener
+        navigationView.setNavigationItemSelectedListener(this);
+
+        // Handle hamburger icon click
+        findViewById(R.id.hamburger_icon).setOnClickListener(v -> {
+            if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                drawerLayout.closeDrawer(GravityCompat.START);
+            } else {
+                drawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
 
         // Handle BottomNavigationView item clicks
         admin_bottom_nav.setOnItemSelectedListener(item -> {
@@ -112,21 +134,41 @@ public class DashboardActivity extends AppCompatActivity {
         OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
-                int backStackCount = getSupportFragmentManager().getBackStackEntryCount();
-                if (backStackCount > 0) {
-                    getSupportFragmentManager().popBackStack();
-                    if (backStackCount == 1) {
-                        admin_dashboard.setVisibility(View.VISIBLE);
-                        admin_fragment_container.setVisibility(View.GONE);
-                        admin_bottom_nav.setSelectedItemId(R.id.nav_dashboard);
-                        fab_add_game.setVisibility(View.VISIBLE);
-                    }
+                if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    drawerLayout.closeDrawer(GravityCompat.START);
                 } else {
-                    finish();
+                    int backStackCount = getSupportFragmentManager().getBackStackEntryCount();
+                    if (backStackCount > 0) {
+                        getSupportFragmentManager().popBackStack();
+                        if (backStackCount == 1) {
+                            admin_dashboard.setVisibility(View.VISIBLE);
+                            admin_fragment_container.setVisibility(View.GONE);
+                            admin_bottom_nav.setSelectedItemId(R.id.nav_dashboard);
+                            fab_add_game.setVisibility(View.VISIBLE);
+                        }
+                    } else {
+                        finish();
+                    }
                 }
             }
         };
         getOnBackPressedDispatcher().addCallback(this, callback);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int itemId = item.getItemId();
+        if (itemId == R.id.nav_logout) {
+            FirebaseAuth.getInstance().signOut();
+            Intent intent = new Intent(DashboardActivity.this, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+            Toast.makeText(this, "Logged out successfully", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        drawerLayout.closeDrawer(GravityCompat.START);
+        return false;
     }
 
     @Nullable

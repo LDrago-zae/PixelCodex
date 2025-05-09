@@ -130,22 +130,22 @@
     </LinearLayout>
 
     <!-- Add Friends Button -->
-    <Button
-        android:id="@+id/add_friends_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="#0F111A"
-        android:text="Add friends"
-        android:textColor="#FFFFFF"
-        android:drawableStart="@android:drawable/ic_menu_add"
-        android:paddingStart="16dp" />
+<!--    <Button-->
+<!--        android:id="@+id/add_friends_button"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:backgroundTint="#0F111A"-->
+<!--        android:text="Add friends"-->
+<!--        android:textColor="#FFFFFF"-->
+<!--        android:drawableStart="@android:drawable/ic_menu_add"-->
+<!--        android:paddingStart="16dp" />-->
 
     <!-- Profile Options (RecyclerView) -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/optionsRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="40dp" />
 
 </LinearLayout>
