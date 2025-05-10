@@ -224,6 +224,12 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
         try {
             Log.d(TAG, "Loading fragment: " + fragment.getClass().getSimpleName());
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.setCustomAnimations(
+                    R.anim.slide_in_right,
+                    R.anim.slide_out_left,
+                    R.anim.slide_in_left,
+                    R.anim.slide_out_right
+            );
             transaction.replace(R.id.admin_fragment_container, fragment);
             transaction.addToBackStack(null);
             transaction.commit();
