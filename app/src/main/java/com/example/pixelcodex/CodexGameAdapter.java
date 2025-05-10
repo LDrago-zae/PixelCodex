@@ -14,9 +14,11 @@ import java.util.List;
 public class CodexGameAdapter extends RecyclerView.Adapter<CodexGameAdapter.CodexGameViewHolder> {
 
     private final List<CodexGame> codexGames;
+    private final OnGameClickListener listener;
 
-    public CodexGameAdapter(List<CodexGame> codexGames) {
+    public CodexGameAdapter(List<CodexGame> codexGames, OnGameClickListener listener) {
         this.codexGames = codexGames;
+        this.listener = listener;
     }
 
     @NonNull
@@ -34,6 +36,13 @@ public class CodexGameAdapter extends RecyclerView.Adapter<CodexGameAdapter.Code
 //        holder.descriptionTextView.setText(game.getDescription());
         holder.priceTextView.setText(game.getPrice());
         holder.imageView.setImageResource(game.getImageResId());  // Use the image resource ID for displaying
+
+        // Handle click event
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onGameClick(game);
+            }
+        });
     }
 
     @Override
@@ -56,5 +65,9 @@ public class CodexGameAdapter extends RecyclerView.Adapter<CodexGameAdapter.Code
             priceTextView = itemView.findViewById(R.id.gamePrice);
             imageView = itemView.findViewById(R.id.gameImage);
         }
+    }
+
+    public interface OnGameClickListener {
+        void onGameClick(CodexGame game);
     }
 }

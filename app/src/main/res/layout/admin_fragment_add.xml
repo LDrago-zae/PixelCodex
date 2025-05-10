@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#102020"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add New Admin"
+        android:textSize="20sp"
+        android:textColor="#B0BEC5"
+        android:layout_marginBottom="16dp" />
+
+    <EditText
+        android:id="@+id/adminEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        android:background="@drawable/rounded_edittext_background"
+        android:textColor="#B0BEC5"
+        android:textColorHint="#B0BEC5"
+        android:padding="12dp"
+        android:layout_marginBottom="8dp" />
+
+    <EditText
+        android:id="@+id/adminPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:background="@drawable/rounded_edittext_background"
+        android:textColor="#B0BEC5"
+        android:textColorHint="#B0BEC5"
+        android:padding="12dp"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/saveAdminButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="#283593"
+        android:textColor="@color/white"
+        android:text="Save"
+        android:layout_gravity="center" />
+</LinearLayout>

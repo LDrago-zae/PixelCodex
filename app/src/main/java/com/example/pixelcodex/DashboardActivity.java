@@ -3,8 +3,12 @@ package com.example.pixelcodex;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
@@ -32,6 +36,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DashboardActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    private static final String TAG = "DashboardActivity";
     private TextView gamesCountTextView, usersCountTextView, requestsCountTextView;
     private DashboardAdapter.GameAdapter gameAdapter;
     private DashboardAdapter.UserAdapter userAdapter;
@@ -92,6 +97,39 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
             }
         });
 
+        // Handle FAB click to show custom popup upwards
+        fab_add_game.setOnClickListener(v -> {
+            // Inflate the custom popup layout
+            LayoutInflater inflater = LayoutInflater.from(DashboardActivity.this);
+            View popupView = inflater.inflate(R.layout.popup_custom_layout, null);
+
+            // Initialize the PopupWindow
+            PopupWindow popupWindow = new PopupWindow(
+                    popupView,
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
+                    true
+            );
+            popupWindow.setOutsideTouchable(true);
+            popupWindow.setBackgroundDrawable(null); // Transparent background, layout defines its own
+            popupWindow.setAnimationStyle(android.R.style.Animation_Toast); // Subtle animation
+
+            // Find the TextView in the popup
+            TextView addAdminOption = popupView.findViewById(R.id.popup_add_admin);
+            addAdminOption.setOnClickListener(view -> {
+                Log.d(TAG, "Add New Admin clicked, attempting to load AdminAddFragment");
+                loadFragment(new AdminAddFragment());
+                popupWindow.dismiss();
+            });
+
+            // Position the popup above the FAB
+            int[] location = new int[2];
+            fab_add_game.getLocationOnScreen(location);
+            int x = location[0] - (200 - fab_add_game.getWidth()) / 2; // Center horizontally
+            int y = location[1] - 100 - fab_add_game.getHeight(); // Above FAB with some offset
+            popupWindow.showAtLocation(fab_add_game, Gravity.NO_GRAVITY, x, y);
+        });
+
         // Handle BottomNavigationView item clicks
         admin_bottom_nav.setOnItemSelectedListener(item -> {
             int itemId = item.getItemId();
@@ -109,7 +147,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
                 if (selectedFragment != null) {
                     loadFragment(selectedFragment);
                 } else {
-                    Log.e("DashboardActivity", "Selected fragment is null for itemId: " + itemId);
+                    Log.e(TAG, "Selected fragment is null for itemId: " + itemId);
                 }
             }
             return true;
@@ -184,12 +222,16 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
 
     private void loadFragment(Fragment fragment) {
         try {
+            Log.d(TAG, "Loading fragment: " + fragment.getClass().getSimpleName());
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.admin_fragment_container, fragment);
             transaction.addToBackStack(null);
             transaction.commit();
+            admin_dashboard.setVisibility(View.GONE);
+            admin_fragment_container.setVisibility(View.VISIBLE);
+            fab_add_game.setVisibility(View.GONE);
         } catch (Exception e) {
-            Log.e("DashboardActivity", "Fragment transaction failed: " + e.getMessage());
+            Log.e(TAG, "Fragment transaction failed: " + e.getMessage());
         }
     }
 
@@ -199,12 +241,12 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 long totalGames = dataSnapshot.getChildrenCount();
                 gamesCountTextView.setText(String.valueOf(totalGames));
-                Log.d("DashboardActivity", "Total games: " + totalGames);
+                Log.d(TAG, "Total games: " + totalGames);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("DashboardActivity", "Failed to fetch games count: " + databaseError.getMessage());
+                Log.e(TAG, "Failed to fetch games count: " + databaseError.getMessage());
                 gamesCountTextView.setText("0");
             }
         });
@@ -216,10 +258,10 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
                 .addOnSuccessListener(querySnapshot -> {
                     long totalUsers = querySnapshot.size();
                     usersCountTextView.setText(String.valueOf(totalUsers));
-                    Log.d("DashboardActivity", "Total users: " + totalUsers);
+                    Log.d(TAG, "Total users: " + totalUsers);
                 })
                 .addOnFailureListener(e -> {
-                    Log.e("DashboardActivity", "Failed to fetch users count: " + e.getMessage());
+                    Log.e(TAG, "Failed to fetch users count: " + e.getMessage());
                     usersCountTextView.setText("0");
                 });
     }
@@ -230,12 +272,12 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 long totalRequests = dataSnapshot.getChildrenCount();
                 requestsCountTextView.setText(String.valueOf(totalRequests));
-                Log.d("DashboardActivity", "Total requests: " + totalRequests);
+                Log.d(TAG, "Total requests: " + totalRequests);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("DashboardActivity", "Failed to fetch requests count: " + databaseError.getMessage());
+                Log.e(TAG, "Failed to fetch requests count: " + databaseError.getMessage());
                 requestsCountTextView.setText("0");
             }
         });
@@ -246,13 +288,13 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 gameList.clear();
-                Log.d("DashboardActivity", "Games snapshot: " + dataSnapshot);
+                Log.d(TAG, "Games snapshot: " + dataSnapshot);
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     GameItem game = snapshot.getValue(GameItem.class);
                     if (game == null) {
-                        Log.e("DashboardActivity", "Failed to deserialize game: " + snapshot);
+                        Log.e(TAG, "Failed to deserialize game: " + snapshot);
                     } else {
-                        Log.d("DashboardActivity", "Deserialized game: title=" + game.getTitle());
+                        Log.d(TAG, "Deserialized game: title=" + game.getTitle());
                         gameList.add(game);
                     }
                 }
@@ -261,7 +303,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("DashboardActivity", "Failed to fetch latest games: " + databaseError.getMessage());
+                Log.e(TAG, "Failed to fetch latest games: " + databaseError.getMessage());
             }
         });
     }
@@ -271,18 +313,18 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
                 .get()
                 .addOnSuccessListener(querySnapshot -> {
                     userList.clear();
-                    Log.d("DashboardActivity", "Users snapshot size: " + querySnapshot.size());
+                    Log.d(TAG, "Users snapshot size: " + querySnapshot.size());
                     for (var doc : querySnapshot) {
                         UserItem user = doc.toObject(UserItem.class);
                         if (user == null) {
-                            Log.e("DashboardActivity", "Failed to deserialize user: " + doc.getData());
+                            Log.e(TAG, "Failed to deserialize user: " + doc.getData());
                         } else {
-                            Log.d("DashboardActivity", "Deserialized user: name=" + user.getName());
+                            Log.d(TAG, "Deserialized user: name=" + user.getName());
                             userList.add(user);
                         }
                     }
                     userAdapter.notifyDataSetChanged();
                 })
-                .addOnFailureListener(e -> Log.e("DashboardActivity", "Failed to fetch recent users: " + e.getMessage()));
+                .addOnFailureListener(e -> Log.e(TAG, "Failed to fetch recent users: " + e.getMessage()));
     }
 }

@@ -11,17 +11,25 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.DocumentSnapshot; // Explicit import
 
 public class AdminLoginActivity extends AppCompatActivity {
 
+    private static final String TAG = "AdminLoginActivity";
     private EditText emailField, passwordField;
     private LottieAnimationView loaderAnimation;
+    private FirebaseFirestore firestore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_login_activity);
-        Log.d("AdminLoginActivity", "Layout set: " + (findViewById(R.id.signInButton) != null));
+        Log.d(TAG, "Layout set: " + (findViewById(R.id.signInButton) != null));
+
+        // Initialize Firebase Firestore
+        firestore = FirebaseFirestore.getInstance();
 
         // Initialize UI elements
         emailField = findViewById(R.id.emailField);
@@ -47,8 +55,8 @@ public class AdminLoginActivity extends AppCompatActivity {
                     loaderAnimation.playAnimation();
                 }
 
-                // Simulate login process
-                simulateLogin(email, password);
+                // Check credentials in Firestore
+                checkAdminCredentials(email, password);
             });
         } else {
             Toast.makeText(this, "Sign-in button not found", Toast.LENGTH_SHORT).show();
@@ -60,27 +68,40 @@ public class AdminLoginActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         });
-
     }
 
-    private void simulateLogin(String email, String password) {
-        // Simulate a delay for login (replace with actual authentication, e.g., Firebase)
-        new android.os.Handler().postDelayed(() -> {
-            // Hide loading indicators
-            if (loaderAnimation != null) {
-                loaderAnimation.setVisibility(View.GONE);
-                loaderAnimation.cancelAnimation();
-            }
+    private void checkAdminCredentials(String email, String password) {
+        firestore.collection("admin_users")
+                .whereEqualTo("email", email)
+                .get()
+                .addOnSuccessListener(querySnapshot -> {
+                    if (loaderAnimation != null) {
+                        loaderAnimation.setVisibility(View.GONE);
+                        loaderAnimation.cancelAnimation();
+                    }
 
-            // Simple hardcoded admin check (replace with actual admin credentials check)
-            if (email.equals("admin@example.com") && password.equals("admin123")) {
-                Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show();
-                // Navigate to DashboardActivity
-                startActivity(new Intent(AdminLoginActivity.this, DashboardActivity.class));
-                finish();
-            } else {
-                Toast.makeText(this, "Invalid email or password", Toast.LENGTH_SHORT).show();
-            }
-        }, 2000); // 2-second delay for simulation
+                    if (!querySnapshot.isEmpty()) {
+                        for (DocumentSnapshot document : querySnapshot.getDocuments()) { // Corrected loop
+                            String storedPassword = document.getString("password");
+                            if (storedPassword != null && storedPassword.equals(password)) {
+                                Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(AdminLoginActivity.this, DashboardActivity.class));
+                                finish();
+                                return;
+                            }
+                        }
+                        Toast.makeText(this, "Invalid password", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "No admin found with this email", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    if (loaderAnimation != null) {
+                        loaderAnimation.setVisibility(View.GONE);
+                        loaderAnimation.cancelAnimation();
+                    }
+                    Log.e(TAG, "Firestore query failed: " + e.getMessage());
+                    Toast.makeText(this, "Error checking credentials: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                });
     }
 }
