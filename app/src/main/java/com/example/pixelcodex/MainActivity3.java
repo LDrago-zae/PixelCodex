@@ -56,6 +56,10 @@ public class MainActivity3 extends AppCompatActivity {
 
         geminiFab.setImageTintList(null);
 
+        // Firebase Cloud Messaging
+
+
+
         // Handle Menu Button Click to Open Drawer
         hamburgerMenuButton.setOnClickListener(view -> drawerLayout.openDrawer(GravityCompat.START));
 

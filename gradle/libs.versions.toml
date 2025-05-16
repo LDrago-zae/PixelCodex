@@ -41,6 +41,7 @@ anychart-android = { module = "com.anychart:anychart-android", version.ref = "an
 charts = { module = "com.github.danielgindi:Charts", version.ref = "charts" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofitVersion" }
 firebase-firestore = { module = "com.google.firebase:firebase-firestore", version.ref = "firebaseFirestore" }
+firebase-messaging = { module = "com.google.firebase:firebase-messaging" }
 firebase-storage = { module = "com.google.firebase:firebase-storage", version.ref = "firebaseStorage" }
 guava = { group = "com.google.guava", name = "guava", version.ref = "guava" }
 compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "compiler" }

@@ -290,7 +290,7 @@ public class DashboardActivity extends AppCompatActivity implements NavigationVi
     }
 
     private void fetchLatestGames() {
-        gamesRef.limitToLast(10).addValueEventListener(new ValueEventListener() {
+        gamesRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 gameList.clear();

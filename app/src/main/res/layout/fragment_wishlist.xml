@@ -19,6 +19,8 @@
         android:id="@+id/wishlistRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical" />
+        android:layout_marginBottom="60dp"
+        android:layout_marginTop="8dp"
+        android:scrollbars="none" />
 
 </LinearLayout>
